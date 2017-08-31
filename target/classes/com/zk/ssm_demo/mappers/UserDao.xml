@@ -36,37 +36,46 @@
     </update>
 
     <select id="queryTotalCount" resultType="long">
-        SELECT count(id) from tbl_user
-        <where>
-            <if test="c_name!=null and c_name!=''">
-                and name like '%'||#{c_name}||'%'
-            </if>
-            <if test="c_age!=null and c_age!=''">
-                and age = #{c_age}
-            </if>
-            <if test="c_address!=null and c_address!=''">
-                and address like '%'||#{c_address}||'%'
-            </if>
-        </where>
-    </select>
+	        SELECT count(id) from tbl_user
+	        <where>
+	            <if  test='c_name != null and c_name!=""' >
+	                and NAME like '%'||#{c_name}||'%'
+	            </if>
+	            <if  test='c_age != null and c_age!=""' >
+	                and AGE = #{c_age}
+	            </if>
+	            <if  test='c_address != null and c_address!=""' >
+	                and ADDRESS like '%'||#{c_address}||'%'
+	            </if>
+	        </where>
+	    </select>
 
     <select id="queryUserListForPaging" resultType="User">
-        SELECT * FROM
-        (SELECT t.*, ROWNUM RN FROM tbl_user t
-        WHERE ROWNUM &lt;= #{endRow}
-        )
-        WHERE RN &gt;= #{startRow}
-            <if test="c_name!=null and c_name!=''">
-                and name like '%'||#{c_name}||'%'
-            </if>
-            <if test="c_age!=null and c_age!=''">
-                and age = #{c_age}
-            </if>
-            <if test="c_address!=null and c_address!=''">
-                and address like '%'||#{c_address}||'%'
-            </if>
-        order by id
-    </select>
+		select * from
+		(
+		select A.* ,ROWNUM rn
+		from (select *
+		from TBL_USER
+		<where>
+			<if  test='c_name != null and c_name!=""' >
+				and NAME like '%'||#{c_name}||'%'
+			</if>
+			<if  test='c_age != null and c_age!=""' >
+				and AGE = #{c_age}
+			</if>
+			<if  test='c_address != null and c_address!=""' >
+				and ADDRESS like '%'||#{c_address}||'%'
+			</if>
+		</where> order by id)A
+
+		<if test='endRow != null and endRow!=""' >
+			where ROWNUM &lt;= #{endRow}
+		</if>
+		)
+		<if test='startRow != null and startRow!=""' >
+			Where rn &gt;= #{startRow}
+		</if>
+	</select>
 
     <delete id="deleteUserById">
         DELETE FROM tbl_user where id=#{id}

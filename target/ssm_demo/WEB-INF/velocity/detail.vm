@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+姓名:$detail_user.name<br>
+头像:<img src="http://127.0.0.1:80/img/$detail_user.photo"><br>
+年龄:$detail_user.age<br>
+住址:$detail_user.address<br>
+
+
+</body>
+</html>

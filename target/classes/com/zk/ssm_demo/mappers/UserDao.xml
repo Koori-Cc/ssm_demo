@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zk.ssm_demo.daos.UserDao">
+
+    <insert id="insertUser">
+        INSERT INTO tbl_user (id,name,age,password,address,photo) VALUES (#{id},#{name},#{age},#{password},#{address},#{photo})
+    </insert>
+
+
+    <insert id="insertUserList" parameterType="java.util.List">
+        insert into tbl_user (id,name,age,address)
+        <foreach open="(" close=")" collection="list" item="item" separator="union">
+            select
+                #{item.id,jdbcType=VARCHAR},
+                #{item.name,jdbcType=VARCHAR},
+                #{item.age,jdbcType=NUMERIC},
+                #{item.address,jdbcType=VARCHAR}
+            from dual
+        </foreach>
+    </insert>
+
+
+    <select id="queryUser" resultType="User">
+        SELECT * FROM tbl_user where name=#{name} and password=#{password}
+    </select>
+
+    <select id="queryUserList" resultType="User">
+        SELECT * FROM tbl_user
+    </select>
+
+    <update id="updateUserPwd">
+        update tbl_user set password=#{password} where id=#{id}
+    </update>
+
+    <select id="queryTotalCount" resultType="long">
+        SELECT count(id) from tbl_user
+        <where>
+            <if test="c_name!=null and c_name!=''">
+                and name like '%'||#{c_name}||'%'
+            </if>
+            <if test="c_age!=null and c_age!=''">
+                and age = #{c_age}
+            </if>
+            <if test="c_address!=null and c_address!=''">
+                and address like '%'||#{c_address}||'%'
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserListForPaging" resultType="User">
+        SELECT * FROM
+        (SELECT t.*, ROWNUM RN FROM tbl_user t
+        WHERE ROWNUM &lt;= #{endRow}
+        )
+        WHERE RN &gt;= #{startRow}
+            <if test="c_name!=null and c_name!=''">
+                and name like '%'||#{c_name}||'%'
+            </if>
+            <if test="c_age!=null and c_age!=''">
+                and age = #{c_age}
+            </if>
+            <if test="c_address!=null and c_address!=''">
+                and address like '%'||#{c_address}||'%'
+            </if>
+        order by id
+    </select>
+
+    <delete id="deleteUserById">
+        DELETE FROM tbl_user where id=#{id}
+    </delete>
+
+    <select id="queryUserById" resultType="User">
+        SELECT * from tbl_user where id=#{id}
+    </select>
+
+    <update id="updateUser">
+        UPDATE tbl_user SET name=#{name},age=#{age},address=#{address} where id=#{id}
+    </update>
+
+</mapper>

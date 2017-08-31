@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="${rc.contextPath}/static/js/jquery-1.11.1-min.js"></script>
+</head>
+
+<script>
+
+    $(function() {
+
+
+
+        $("#subBtn").click(function() {
+
+            var v_id = $("#pk").val();
+            var v_name = $("#name").val();
+            var v_op = $("#oldPwd").val();
+            var v_np = $("#newPwd").val();
+
+            $.ajax({
+                url:"$!{rc.contextPath}/user/changePwd.do",
+                data:{id:v_id,name:v_name,o_password:v_op,n_password:v_np},
+                type:"post",
+                success:function(data) {
+                    if(data) {
+                        $("#s_msg").html("修改成功!3秒后跳转到登录页面");
+                        setTimeout('window.location="$!{rc.contextPath}/user/toLogin.do"',3000);
+                    }else {
+                        $("#s_msg").html("用户名或者密码错误");
+                    }
+                }
+            });
+
+
+        });
+
+
+    });//----------------------jQuery启动函数结束-----------------------------
+
+</script>
+<body>
+
+<from>
+    <input type="hidden" id="pk" value="$session_user.id">
+    用户名:<input id="name" type="text" value="$session_user.name" readonly><br>
+    旧密码:<input id="oldPwd" type="password"><br>
+    新密码:<input id="newPwd" type="password"><br>
+    <input id="subBtn" type="button" value="修改"><span id="s_msg" style="color: red;"></span>
+</from>
+
+
+</body>
+</html>

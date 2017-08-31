@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="${rc.contextPath}/static/js/jquery-1.11.1-min.js"></script>
+
+</head>
+
+<script>
+    $(function() {
+
+        $("#name").blur(function() {
+            checkName();
+        });
+
+
+        $("#age").blur(function() {
+            checkAge();
+        });
+
+        $("#address").blur(function() {
+            checkAddress();
+        });
+
+        $("#updateBtn").click(function() {
+            if (checkName() &&  checkAge() && checkAddress()) {
+                $("#updateForm").submit();
+
+            }else {
+                alert("信息有错误!");
+                return;
+            }
+        });
+
+    });
+
+    function checkName() {
+        var v_name = $.trim($("#name").val());
+        if (v_name.length == 0 || v_name.length >= 12) {
+            $("#s_name").html("名称长度不合法~");
+            return false;
+        }else {
+            $("#s_name").html("");
+            return true;
+        }
+    }
+
+
+    function checkAge() {
+        var v_age = $.trim($("#age").val());
+        if(isNaN(v_age)) {
+            $("#s_age").html("年龄应该为数字!");
+            return false;
+        } else if (v_age <= 0 || v_age >= 150) {
+            $("#s_age").html("年龄不合法~");
+            return false;
+        }else {
+            $("#s_age").html("");
+            return true;
+        }
+    }
+
+    function checkAddress() {
+        var v_address = $.trim($("#address").val());
+        if (v_address.length == 0) {
+            $("#s_address").html("请输入地址~");
+            return false;
+        }else {
+            $("#s_address").html("");
+            return true;
+        }
+    }
+
+</script>
+
+<body>
+
+<form id="updateForm" action="${rc.contextPath}/user/update.do" method="post">
+    <input type="hidden" name="id" value="$user.id">
+    用户名:<input id="name" type="text" name="name" value="$user.name"><span id="s_name" style="color: red"></span><br>
+    年龄:<input id="age" type="text" name="age" value="$user.age"><span id="s_age" style="color: red"></span><br>
+    地址:<input id="address" type="text" name="address" value="$user.address"><span id="s_address" style="color: red"></span><br>
+    <input id="updateBtn" type="button" value="修改"><br>
+
+
+
+</form>
+
+
+</body>
+</html>

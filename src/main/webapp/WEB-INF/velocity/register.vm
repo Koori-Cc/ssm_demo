@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="${rc.contextPath}/static/js/jquery-1.11.1-min.js"></script>
+
+</head>
+
+<script>
+    $(function() {
+
+        $("#name").blur(function() {
+            checkName();
+        });
+
+        $("#pwd").blur(function() {
+            checkPwd();
+        });
+
+
+        $("#re_pwd").blur(function() {
+            checkRePwd();
+        });
+
+        $("#age").blur(function() {
+            checkAge();
+        });
+
+        $("#address").blur(function() {
+            checkAddress();
+        });
+
+        $("#registerBtn").click(function() {
+            if (checkName() && checkPwd() && checkRePwd() && checkAge() && checkAddress()) {
+                $("#registerForm").submit();
+            }else {
+                alert("注册信息有错误!");
+                return;
+            }
+        });
+
+    });
+
+    function checkName() {
+        var v_name = $.trim($("#name").val());
+        if (v_name.length == 0 || v_name.length >= 12) {
+            $("#s_name").html("名称长度不合法~");
+            return false;
+        }else {
+            $("#s_name").html("");
+            return true;
+        }
+    }
+
+    function checkPwd() {
+        var v_pwd = $.trim($("#pwd").val());
+        if (v_pwd.length == 0 || v_pwd.length >= 12) {
+            $("#s_pwd").html("密码长度不合法~");
+            return false;
+        }else {
+            $("#s_pwd").html("");
+            return true;
+        }
+    }
+
+    function checkRePwd() {
+        var v_re_pwd = $.trim($("#re_pwd").val());
+        if (v_re_pwd != $("#pwd").val()) {
+            $("#s_re_pwd").html("两次密码不一致");
+            return false;
+        }else {
+            $("#s_re_pwd").html("");
+            return true;
+        }
+    }
+
+    function checkAge() {
+        var v_age = $.trim($("#age").val());
+        if(isNaN(v_age)) {
+            $("#s_age").html("年龄应该为数字!");
+            return false;
+        } else if (v_age <= 0 || v_age >= 150) {
+            $("#s_age").html("年龄不合法~");
+            return false;
+        }else {
+            $("#s_age").html("");
+            return true;
+        }
+    }
+
+    function checkAddress() {
+        var v_address = $.trim($("#address").val());
+        if (v_address.length == 0) {
+            $("#s_address").html("请输入地址~");
+            return false;
+        }else {
+            $("#s_address").html("");
+            return true;
+        }
+    }
+
+</script>
+
+<body>
+
+<form id="registerForm" action="${rc.contextPath}/user/register.do" method="post" enctype="multipart/form-data">
+    用户名:<input id="name" type="text" name="name"><span id="s_name" style="color: red"></span><br>
+    密码:<input id="pwd" type="password" name="password"><span id="s_pwd" style="color: red"></span><br>
+    重复密码:<input id="re_pwd" type="password"><span id="s_re_pwd" style="color: red"></span><br>
+    年龄:<input id="age" type="text" name="age"><span id="s_age" style="color: red"></span><br>
+    地址:<input id="address" type="text" name="address"><span id="s_address" style="color: red"></span><br>
+    头像:<input type="file" name="myPhoto"><br>
+    <input id="registerBtn" type="button" value="注册"><br>
+
+
+
+</form>
+
+
+</body>
+</html>

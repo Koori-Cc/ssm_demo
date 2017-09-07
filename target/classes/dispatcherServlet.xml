@@ -23,6 +23,9 @@
     <!-- 注册注解驱动 -->
     <mvc:annotation-driven/>
 
+    <!-- 处理静态资源 -->
+    <mvc:resources location="/static/" mapping="/static/**"/>
+
     <context:property-placeholder location="classpath:DBInfo.properties"/>
 
     <bean id="myDataSourse" class="com.mchange.v2.c3p0.ComboPooledDataSource">

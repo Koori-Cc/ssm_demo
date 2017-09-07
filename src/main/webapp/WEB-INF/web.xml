@@ -33,14 +33,8 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/</url-pattern>    <!-- 注意处理静态资源 -->
     </servlet-mapping>
-
-
-    <welcome-file-list>
-        <welcome-file>/index.vm</welcome-file>
-    </welcome-file-list>
-
 
 
 </web-app>

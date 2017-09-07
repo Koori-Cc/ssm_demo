@@ -10,7 +10,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.velocity.tools.generic.ResourceTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +41,7 @@ public class UserController {
     private UserService userService;
 
     private Logger logger = Logger.getLogger(UserController.class);
+
 
     @RequestMapping("/toRegister.do")
     public String toRegister() {
@@ -81,7 +81,7 @@ public class UserController {
 
         }
         userService.register(user);
-        return "redirect:/index.vm";    //index.vm在根目录!
+        return "redirect:/toIndex.do";   //使用绝对路径!!
     }
 
     @RequestMapping("/toLogin.do")

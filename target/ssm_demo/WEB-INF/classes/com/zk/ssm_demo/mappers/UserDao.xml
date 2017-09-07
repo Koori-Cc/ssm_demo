@@ -6,7 +6,15 @@
 <mapper namespace="com.zk.ssm_demo.daos.UserDao">
 
     <insert id="insertUser">
-        INSERT INTO tbl_user (id,name,age,password,address,photo) VALUES (#{id},#{name},#{age},#{password},#{address},#{photo})
+        INSERT INTO tbl_user
+        (id,name,age,password,address,photo)
+        VALUES
+        (#{id,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+        #{age,jdbcType=NUMERIC},
+        #{password,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR},
+        #{photo,jdbcType=VARCHAR})
     </insert>
 
 

@@ -30,4 +30,6 @@ public interface UserDao {
 
     Integer updateUser(User user);
 
+    List<String> queryAddress();
+
 }

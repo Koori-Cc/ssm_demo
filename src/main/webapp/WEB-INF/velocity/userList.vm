@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="${rc.contextPath}/static/bs_pagination/css/jquery.bs_pagination.min.css"
           type="text/css"/>
 
-    <script type="text/javascript" src="${rc.contextPath}/static/js/jquery-1.11.1-min.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="${rc.contextPath}/static/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${rc.contextPath}/static/bs_pagination/js/jquery.bs_pagination.min.js"></script>
     <script type="text/javascript" src="${rc.contextPath}/static/bs_pagination/js/localization/en.js"></script>

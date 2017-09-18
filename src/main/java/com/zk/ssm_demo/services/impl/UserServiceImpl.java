@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,6 +30,7 @@ public class UserServiceImpl implements UserService{
         String pwd = MD5Util.MD5(user.getPassword());
         user.setPassword(pwd);
         user.setId(UUIDUtils.getUUID());
+        user.setCreateTime(new Date());
         userDao.insertUser(user);
     }
 
@@ -51,6 +55,12 @@ public class UserServiceImpl implements UserService{
 
         List<User> userList = userDao.queryUserListForPaging(vo);
 
+        for(User u : userList) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String s_createTime = format.format(u.getCreateTime());
+            u.setS_createTime(s_createTime);
+        }
+
         Long totalCount = userDao.queryTotalCount(vo);
 
         Long pageCount = totalCount / vo.getPageSize();
@@ -68,10 +78,12 @@ public class UserServiceImpl implements UserService{
     public Integer deleteUserById(String id) {
         User u = userDao.queryUserById(id);
         String photo = u.getPhoto();
-        ResourceBundle bundle = ResourceBundle.getBundle("config");
-        String dir = bundle.getString("nginx.imgPath") + File.separator + photo;
-        File file = new File(dir);
-        file.delete();   //删除上传的图片
+        if(photo != null && !"".equals(photo)) {
+            ResourceBundle bundle = ResourceBundle.getBundle("config");
+            String dir = bundle.getString("nginx.imgPath") + File.separator + photo;
+            File file = new File(dir);
+            file.delete();   //删除上传的图片
+        }
         return userDao.deleteUserById(id);
     }
 
@@ -81,6 +93,10 @@ public class UserServiceImpl implements UserService{
 
     public Integer updateUser(User user) {
         return userDao.updateUser(user);
+    }
+
+    public List<String> queryAddress() {
+        return userDao.queryAddress();
     }
 
     public Integer importExcel(List<User> list) {

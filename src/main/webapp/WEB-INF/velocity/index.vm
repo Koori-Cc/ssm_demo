@@ -12,5 +12,7 @@
 <a href="$!{rc.contextPath}/user/toList.do">查看用户列表</a><br><br>
 <a href="$!{rc.contextPath}/user/toUserList.do">查看分页</a><br><br>
 
+<a href="$!{rc.contextPath}/kendo/toList.do">Kendo UI</a><br><br>
+
 </body>
 </html>

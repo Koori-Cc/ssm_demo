@@ -5,16 +5,32 @@
 
 <mapper namespace="com.zk.ssm_demo.daos.UserDao">
 
+    <resultMap type="User" id="userResultMap">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="id" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="name" column="NAME"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="age" column="AGE"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="photo" column="PHOTO"/>
+        <result property="createTime" column="CREATETIME"/>
+    </resultMap>
+
     <insert id="insertUser">
         INSERT INTO tbl_user
-        (id,name,age,password,address,photo)
+        (id,name,age,password,address,photo,CREATETIME)
         VALUES
-        (#{id,jdbcType=VARCHAR},
-        #{name,jdbcType=VARCHAR},
-        #{age,jdbcType=NUMERIC},
-        #{password,jdbcType=VARCHAR},
-        #{address,jdbcType=VARCHAR},
-        #{photo,jdbcType=VARCHAR})
+        (
+            #{id,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            #{age,jdbcType=NUMERIC},
+            #{password,jdbcType=VARCHAR},
+            #{address,jdbcType=VARCHAR},
+            #{photo,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP}
+        )
+
     </insert>
 
 
@@ -31,12 +47,16 @@
     </insert>
 
 
-    <select id="queryUser" resultType="User">
-        SELECT * FROM tbl_user where name=#{name} and password=#{password}
+    <select id="queryUser" resultMap="userResultMap">
+        SELECT
+            *
+        FROM tbl_user where name=#{name} and password=#{password}
     </select>
 
-    <select id="queryUserList" resultType="User">
-        SELECT * FROM tbl_user
+    <select id="queryUserList" resultMap="userResultMap">
+        SELECT
+           *
+        FROM tbl_user
     </select>
 
     <update id="updateUserPwd">
@@ -58,11 +78,12 @@
 	        </where>
 	    </select>
 
-    <select id="queryUserListForPaging" resultType="User">
+    <select id="queryUserListForPaging" resultMap="userResultMap">
 		select * from
 		(
 		select A.* ,ROWNUM rn
-		from (select *
+		from (select
+            *
 		from TBL_USER
 		<where>
 			<if  test='c_name != null and c_name!=""' >
@@ -74,7 +95,7 @@
 			<if  test='c_address != null and c_address!=""' >
 				and ADDRESS like '%'||#{c_address}||'%'
 			</if>
-		</where> order by id)A
+		</where> order by CREATETIME DESC )A
 
 		<if test='endRow != null and endRow!=""' >
 			where ROWNUM &lt;= #{endRow}
@@ -86,15 +107,21 @@
 	</select>
 
     <delete id="deleteUserById">
-        DELETE FROM tbl_user where id=#{id}
+        DELETE FROM tbl_user where id=#{id,jdbcType=VARCHAR}
     </delete>
 
-    <select id="queryUserById" resultType="User">
-        SELECT * from tbl_user where id=#{id}
+    <select id="queryUserById" resultMap="userResultMap">
+        SELECT
+           *
+        from tbl_user where id=#{id,jdbcType=VARCHAR}
     </select>
 
     <update id="updateUser">
-        UPDATE tbl_user SET name=#{name},age=#{age},address=#{address} where id=#{id}
+        UPDATE tbl_user SET name=#{name,jdbcType=VARCHAR},age=#{age,jdbcType=NUMERIC},address=#{address,jdbcType=VARCHAR} where id=#{id,jdbcType=VARCHAR}
     </update>
+
+    <select id="queryAddress" resultType="string">
+        SELECT ADDRESS FROM tbl_user
+    </select>
 
 </mapper>

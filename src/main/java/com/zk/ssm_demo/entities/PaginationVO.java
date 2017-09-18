@@ -6,8 +6,8 @@ import java.util.List;
  * Created by Koori_Cc on 2017/8/25.
  */
 public class PaginationVO {
-    private Long pageNo;
-    private Long pageSize;
+    private Long pageNo = 1L;
+    private Long pageSize = 10L;
 
     private Long startRow;
     private Long endRow;
@@ -19,6 +19,25 @@ public class PaginationVO {
     private String c_name;
     private Integer c_age;
     private String c_address;
+
+    /**
+     * +++++ Kendo UI Start +++++
+     */
+    // kendo中的当前页数
+    private Long page;
+
+    public Long getPage() {
+        return page;
+    }
+
+    public void setPage(Long page) {
+        this.page = page;
+    }
+
+    /**
+     * +++++ Kendo UI End +++++
+     */
+
 
     public Long getStartRow() {
         return (pageNo-1)*pageSize + 1;

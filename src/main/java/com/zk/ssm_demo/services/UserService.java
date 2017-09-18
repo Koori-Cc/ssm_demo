@@ -28,4 +28,6 @@ public interface UserService {
 
     Integer updateUser(User user);
 
+    List<String> queryAddress();
+
 }

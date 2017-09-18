@@ -59,8 +59,8 @@
 
 <script>
 
-    var detailWindow;
-    var detailTemplate;
+    var detailWindow;    //详情窗口
+    var detailTemplate;   //详情窗口的模版
 
     $(function() {
 
@@ -307,7 +307,7 @@
                 .appendTo(container).kendoDropDownList({
             dataTextField: "address",    //显示的数据的key(一般是中文)
             dataValueField: "address",   //提交的数据的key(一般是id)
-            dataSource: {
+            dataSource: {       //配置列表显示的数据源
                 transport: {
                     read: {
                         url:"$!{rc.contextPath}/kendo/address.do",  //列表

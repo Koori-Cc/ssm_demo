@@ -17,6 +17,7 @@
     <script src="$!{rc.contextPath}/static/js/kendo.grid.min.js"></script>
     <script src="$!{rc.contextPath}/static/js/messages/kendo.messages.zh-CN.min.js"></script>
     <script src="$!{rc.contextPath}/static/js/kendo.editor.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/jszip.min.js"></script>
 
 </head>
 
@@ -91,7 +92,47 @@
 
         detailTemplate = kendo.template($("#template").html());
 
+        $("#exportExcel").click(function() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.saveAsExcel();
+        });
+
+        //主页面的文件上传,可同时选多个文件,这时会发送多次请求,且只有符合要求的会被上传
+        $("#uploadFile").kendoUpload({
+            async: {
+                saveUrl: "$!{rc.contextPath}/kendo/upload.do",
+                autoUpload : true
+            },
+            localization: {     //设置上传按钮名称
+                select: "上传图片",
+                dropFilesHere: "拖拽文件到此区域"
+            },
+            showFileList : false,    //不展示上传的文件列表
+            multiple:true, // 支持多个文件上传
+            upload : function(e) {
+                // 获取上传的文件
+                var files = e.files;
+                //验证文件格式
+                $.each(files, function () {
+                    if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(this.extension.toLowerCase())) {
+                        alert("只能上传图片文件!")
+                        e.preventDefault();
+                    }
+                });
+            },
+            success:function(e) {
+                if(e.response) {
+                    alert("上传成功!");
+                }else {
+                    alert("上传失败!");
+                }
+            }
+        });
+
+
     });//-------------jQuery启动函数结束------------
+
+
 
     //----------------------页面初始化的方法----------------------------
     function initPage() {
@@ -154,7 +195,7 @@
                 total: "totalCount",   //可以直接这样取值
                 model: {
                     id: "id",   //主键
-                    fields: {
+                    fields: {       // 这里写的是随表单一起提交的数据
                         id: { editable: false, nullable: true }, //editable: false(是否需要编辑) nullable : true,(是否允许为空)
                         //validation是验证,也就是在新建或者修改的时候,不能为空
                         name: { validation: { required: true } },
@@ -162,11 +203,12 @@
                         address: { validation: { required: true } },
                         photo: {
                             validation: {
-                                required: false
-                            },
-                            editable: false    //可编辑
+                                required: true
+                            }
                         },
-                        s_createTime:{ editable: false}   //创建时间不可编辑
+                        s_createTime:{
+                            editable: false   //创建时间不可编辑
+                        }
                     }
                 },
                 data : function(data) {
@@ -235,11 +277,12 @@
                     editor: addressDropDownEditor   //下拉列表
                 },  {
                     field: "photo",
-                    title: "头像",
+                    title: "头像",                      //这里的模版是在页面进行显示的数据
                     template: "<img src='http://127.0.0.1:80/img/#:data.photo#'>",    //nginx代理的地址, #:data.photo#  用于取值
                     attributes : {      //设置样式
                         style : "text-align: center;"
-                    }
+                    },
+                    editor: uploadImgEditor
                 },{
                     field: "s_createTime",
                     title: "创建时间",
@@ -276,6 +319,12 @@
                 //createAt : "top",// 添加位置，默认是top：从第一行进行添加
                 destroy : true,// 是否允许删除
                 mode : "popup"// 设置编辑形式为弹出框(popup)还是在列表中(inline)
+            },
+            excelExport: function(e) {
+                e.workbook.fileName = "用户列表.xlsx";    //定义导出文件的文件名
+            },
+            excel:{
+                allPages:false    //是否导出所有页中的数据,默认是false,也就是导出当前页的数据
             }
             //groupable : true,   //是否添加排序功能
             //sortable: true  //是否添加分组功能
@@ -327,12 +376,60 @@
         detailWindow.center().open();
     }
 
+    //--------------新增,编辑的文件上传--------------------START------------------------------------------------------------
+    //字段修改格式化,修改框转换为上传按钮
+    function uploadImgEditor(container, options) {
+        //设置一个隐藏于来存储上传的文件名
+        $('<input type="text" name="filename" id="filename">').appendTo(container);
+        //用于显示图片
+        $('<img id="myImg">').appendTo(container);
+        //设置上传文件的具体属性
+        $('<input type="file" name="file" id="uploadImg"/>').appendTo(container).kendoUpload({
+            async: {    //异步上传图片到指定地址中
+                saveUrl: "$!{rc.contextPath}/kendo/upload.do",
+                autoUpload: true
+            },
+            localization: {     //设置上传按钮名称
+                select: "上传头像"
+            },
+            validation: {
+                allowedExtensions: [".gif", ".jpg", ".png", ".bmp"],      //验证格式
+                maxFileSize: 4194304
+            },
+            showFileList : false,    //不展示上传的文件列表
+            complete: uploadPhotoComplete,  //响应后,这个函数一定会执行
+            success: uploadPhotoSuccess
+        });
+    }
+
+    function uploadPhotoComplete(e) {
+        kendoConsole.log(" ---Complete--- ");
+    }
+
+    function uploadPhotoSuccess(e) {
+        if(e.response.success) {
+            var data = e.response;
+            var filename = data.filename;
+            $("#filename").val(filename);   //不会随着表单一起提交??
+            var path = "http://127.0.0.1:80/img/" + filename;
+            $("#myImg").attr('src',path);         //上传图片后让图片显示
+        }else {
+            alert("上传失败");
+        }
+    }
+
+
+    //--------------新增的编辑的文件上传-------------------END--------------------------------------------------------------
 
 </script>
 
-
-
 <body>
+
+    <!-- 可以在这里打印日志,调错方便 -->
+    <div class="box">
+        <h4>Console log</h4>
+        <div class="console"></div>
+    </div>
 
     <div style="padding: 20px" align="center">
         姓名:<input type="text" id="name">&nbsp;&nbsp;
@@ -340,7 +437,11 @@
         住址:<input type="text" id="address">&nbsp;&nbsp;
         <input type="button" id="search" value="查询">
         <input type="button" id="clear" value="清空">
+        <input type="button" id="exportExcel" value="导出">
     </div>
+
+    ##上传图片的按钮,自动上传,不用提交表单
+    <input type="file" name="file" id="uploadFile">
 
     <div id="grid"></div>
 

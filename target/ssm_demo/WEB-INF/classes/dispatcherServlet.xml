@@ -5,6 +5,7 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -15,7 +16,12 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+
+    <!-- 定时任务的注解驱动   -->
+    <task:annotation-driven/>
 
     <!-- 注册组件扫描器 -->
     <context:component-scan base-package="com.zk.ssm_demo.controllers;"/>
@@ -26,7 +32,17 @@
     <!-- 处理静态资源 -->
     <mvc:resources location="/static/" mapping="/static/**"/>
 
-    <context:property-placeholder location="classpath:DBInfo.properties"/>
+    <!-- 不使用这个来读取文件了 -->
+    <!--<context:property-placeholder location="classpath:DBInfo.properties"/>-->
+    <!-- 将需要读取的文件写在这里面 -->
+    <bean id="propertyConfigurer"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <array>
+                <value>classpath:DBInfo.properties</value>   <!-- 数据库的配置文件 -->
+                <value>classpath:config-dev.properties</value>   <!-- 自定义的配置文件,在spring容器管理的bean中可以取值 -->
+            </array>
+        </property>
+    </bean>
 
     <bean id="myDataSourse" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driverClassName}"/>
@@ -77,6 +93,5 @@
         <property name="exposeRequestAttributes" value="true"></property>
         <property name="exposeSessionAttributes" value="true"></property>
     </bean>
-
 
 </beans>

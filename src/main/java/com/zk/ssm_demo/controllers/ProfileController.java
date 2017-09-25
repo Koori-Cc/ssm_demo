@@ -28,6 +28,9 @@ public class ProfileController {
     @Value("${jdbc.username}")
     private String name;
 
+    @Value("${nginx.imgPath}")
+    private String path;
+
     @RequestMapping("/print.do")
     @ResponseBody
     //@Scheduled(cron="0/5 * *  * * ? ")   //每5秒执行一次
@@ -35,6 +38,7 @@ public class ProfileController {
         logger.info("********************" + guitarColor + "********************");
         logger.info("********************" + pickColor + "********************");
         logger.info("********************" + name + "********************");
+        logger.info("********************" + path + "********************");
     }
 
 }

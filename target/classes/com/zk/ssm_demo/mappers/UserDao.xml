@@ -117,7 +117,7 @@
     </select>
 
     <update id="updateUser">
-        UPDATE tbl_user SET name=#{name,jdbcType=VARCHAR},age=#{age,jdbcType=NUMERIC},address=#{address,jdbcType=VARCHAR} where id=#{id,jdbcType=VARCHAR}
+        UPDATE tbl_user SET name=#{name,jdbcType=VARCHAR},age=#{age,jdbcType=NUMERIC},address=#{address,jdbcType=VARCHAR},photo=#{photo,jdbcType=VARCHAR} where id=#{id,jdbcType=VARCHAR}
     </update>
 
     <select id="queryAddress" resultType="string">

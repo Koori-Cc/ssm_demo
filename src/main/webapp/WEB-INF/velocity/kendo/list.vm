@@ -202,13 +202,10 @@
                         age: { validation: { required: true } },
                         address: { validation: { required: true } },
                         photo: {
-                            validation: {
-                                required: true
-                            }
+                            validation: {required: true},
+                            //defaultValue: "ccc"   //这个可以设置默认值
                         },
-                        s_createTime:{
-                            editable: false   //创建时间不可编辑
-                        }
+                        s_createTime:{editable: false }  //创建时间不可编辑
                     }
                 },
                 data : function(data) {
@@ -252,7 +249,7 @@
                     text : "新增用户"
                 }
             ],
-            columns : [
+            columns : [    //这里写的是具体在表格中显示的数据,不是随表单提交的数据
                 {
                     field : "name",      //这个field是实体类的成员变量名
                     title : "姓名",
@@ -316,9 +313,9 @@
             editable : {// 设置可以在列表中进行编辑数据
                 // 设置删除时显示的确认信息
                 confirmation : "您确定要进行删除操作吗？",
-                //createAt : "top",// 添加位置，默认是top：从第一行进行添加
-                destroy : true,// 是否允许删除
-                mode : "popup"// 设置编辑形式为弹出框(popup)还是在列表中(inline)
+                //createAt : "top", // 添加位置，默认是top：从第一行进行添加
+                destroy : true,     // 是否允许删除
+                mode : "popup"      // 设置编辑形式为弹出框(popup)还是在列表中(inline)
             },
             excelExport: function(e) {
                 e.workbook.fileName = "用户列表.xlsx";    //定义导出文件的文件名
@@ -379,15 +376,17 @@
     //--------------新增,编辑的文件上传--------------------START------------------------------------------------------------
     //字段修改格式化,修改框转换为上传按钮
     function uploadImgEditor(container, options) {
-        //设置一个隐藏于来存储上传的文件名
-        $('<input type="text" name="filename" id="filename">').appendTo(container);
-        //用于显示图片
+        //设置一个隐藏域来存储上传的文件名,data-bind="value:photo"可以绑定数据,如果有数据返回就会显示,没有就不会显示
+        //如果是新增操作,就不会显示数据;如果是修改操作,就会显示绑定的数据
+        // 问题 : 必须要将值手工改动才会被提交 , 用程序将值改动是不能被提交的  ??????????????????
+        $('<input id="photo" name="photo" required="required" type="text" data-bind="value:photo">').appendTo(container);
+        //用于显示上传的图片
         $('<img id="myImg">').appendTo(container);
         //设置上传文件的具体属性
-        $('<input type="file" name="file" id="uploadImg"/>').appendTo(container).kendoUpload({
+        $('<input type="file" name="file"/>').appendTo(container).kendoUpload({
             async: {    //异步上传图片到指定地址中
                 saveUrl: "$!{rc.contextPath}/kendo/upload.do",
-                autoUpload: true
+                autoUpload: true   //如果是false则需要手动点击上传图片
             },
             localization: {     //设置上传按钮名称
                 select: "上传头像"
@@ -400,17 +399,19 @@
             complete: uploadPhotoComplete,  //响应后,这个函数一定会执行
             success: uploadPhotoSuccess
         });
+
     }
 
     function uploadPhotoComplete(e) {
         kendoConsole.log(" ---Complete--- ");
     }
 
+    //不手动改动内容,就不会随着表单一起提交??而且提交的上一次的数据
     function uploadPhotoSuccess(e) {
         if(e.response.success) {
             var data = e.response;
             var filename = data.filename;
-            $("#filename").val(filename);   //不会随着表单一起提交??
+            $("#photo").val(filename);
             var path = "http://127.0.0.1:80/img/" + filename;
             $("#myImg").attr('src',path);         //上传图片后让图片显示
         }else {

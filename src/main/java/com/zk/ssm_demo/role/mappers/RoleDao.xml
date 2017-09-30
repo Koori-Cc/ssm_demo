@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zk.ssm_demo.role.daos.RoleDao">
+    <resultMap type="Role" id="roleResultMap">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="id" column="ROLE_ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="name" column="ROLE_NAME"/>
+        <result property="code" column="ROLE_CODE"/>
+    </resultMap>
+
+    <insert id="insertRole">
+        INSERT INTO TBL_ROLE
+        (ROLE_ID,ROLE_NAME,ROLE_CODE)
+        VALUES
+        (
+            #{id,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            #{code,jdbcType=VARCHAR}
+        )
+
+    </insert>
+
+    <select id="queryRoleList" resultMap="roleResultMap">
+        SELECT
+        *
+        FROM TBL_ROLE
+    </select>
+
+    <select id="queryTotalCount" resultType="long">
+        SELECT count(ROLE_ID) from TBL_ROLE
+        <where>
+            <if  test='c_name != null and c_name!=""' >
+                and ROLE_NAME like '%'||#{c_name}||'%'
+            </if>
+            <if  test='c_code != null and c_code!=""' >
+                and ROLE_CODE like '%'||#{c_code}||'%'
+            </if>
+        </where>
+    </select>
+
+    <select id="queryRolerListForPaging" resultMap="roleResultMap">
+        select * from
+        (
+        select A.* ,ROWNUM rn
+        from (select
+        *
+        from TBL_ROLE
+        <where>
+            <if  test='role.c_name != null and role.c_name!=""' >
+                and ROLE_NAME like '%'||#{role.c_name}||'%'
+            </if>
+            <if  test='role.c_code != null and role.c_code!=""' >
+                and ROLE_CODE like '%'||#{role.c_code}||'%'
+            </if>
+        </where> order by ROLE_CODE)A
+
+        <if test='vo.endRow != null and vo.endRow!=""' >
+            where ROWNUM &lt;= #{vo.endRow}
+        </if>
+        )
+        <if test='vo.startRow != null and vo.startRow!=""' >
+            Where rn &gt;= #{vo.startRow}
+        </if>
+    </select>
+
+    <delete id="deleteRoleById">
+        DELETE FROM TBL_ROLE where ROLE_ID=#{id,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="queryRoleById" resultMap="roleResultMap">
+        SELECT
+        *
+        from TBL_ROLE where ROLE_ID=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateRole">
+        UPDATE TBL_ROLE SET ROLE_NAME=#{name,jdbcType=VARCHAR},ROLE_CODE=#{code,jdbcType=VARCHAR} where ROLE_ID=#{id,jdbcType=VARCHAR}
+    </update>
+
+
+</mapper>

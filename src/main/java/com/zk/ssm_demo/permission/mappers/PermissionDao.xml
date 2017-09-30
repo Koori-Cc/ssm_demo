@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zk.ssm_demo.permission.daos.PermissionDao">
+
+    <resultMap type="Permission" id="permissionResultMap">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="id" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="name" column="PERMISSION_NAME"/>
+        <result property="code" column="PERMISSION_CODE"/>
+    </resultMap>
+
+    <insert id="insertPermission">
+        INSERT INTO TBL_PERMISSION
+          (ID,PERMISSION_NAME,PERMISSION_CODE)
+        VALUES
+        (
+            #{id,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            #{code,jdbcType=VARCHAR}
+        )
+
+    </insert>
+
+    <select id="queryPermissionList" resultMap="permissionResultMap">
+        SELECT
+        *
+        FROM TBL_PERMISSION
+    </select>
+
+    <select id="queryTotalCount" resultType="long">
+        SELECT count(ID) from TBL_PERMISSION
+        <where>
+            <if  test='c_name != null and c_name!=""' >
+                and PERMISSION_NAME like '%'||#{c_name}||'%'
+            </if>
+            <if  test='c_code != null and c_code!=""' >
+                and PERMISSION_CODE like '%'||#{c_code}||'%'
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPermissionListForPaging" resultMap="permissionResultMap">
+        select * from
+        (
+        select A.* ,ROWNUM rn
+        from (select
+        *
+        from TBL_PERMISSION
+        <where>
+            <if  test='permission.c_name != null and permission.c_name!=""' >
+                and PERMISSION_NAME like '%'||#{permission.c_name}||'%'
+            </if>
+            <if  test='permission.c_code != null and permission.c_code!=""' >
+                and PERMISSION_CODE like '%'||#{permission.c_code}||'%'
+            </if>
+        </where> order by PERMISSION_CODE)A
+
+        <if test='vo.endRow != null and vo.endRow!=""' >
+            where ROWNUM &lt;= #{vo.endRow}
+        </if>
+        )
+        <if test='vo.startRow != null and vo.startRow!=""' >
+            Where rn &gt;= #{vo.startRow}
+        </if>
+    </select>
+
+    <delete id="deletePermissionById">
+        DELETE FROM TBL_PERMISSION where ID=#{id,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="queryPermissionById" resultMap="permissionResultMap">
+        SELECT
+        *
+        from TBL_PERMISSION where ID=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updatePermission">
+        UPDATE TBL_PERMISSION SET PERMISSION_NAME=#{name,jdbcType=VARCHAR},PERMISSION_CODE=#{code,jdbcType=VARCHAR} where ID=#{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

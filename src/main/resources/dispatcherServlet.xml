@@ -24,7 +24,9 @@
     <task:annotation-driven/>
 
     <!-- 注册组件扫描器 -->
-    <context:component-scan base-package="com.zk.ssm_demo.controllers;"/>
+    <context:component-scan base-package="com.zk.ssm_demo.*.controllers"/>
+    <context:component-scan base-package="com.zk.ssm_demo.*.services"/>
+    <context:component-scan base-package="com.zk.ssm_demo.*.entities"/>
 
     <!-- 注册注解驱动 -->
     <mvc:annotation-driven/>
@@ -60,10 +62,8 @@
     <!-- 生成了所有的dao接口的动态代理对象 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <property name="basePackage" value="com.zk.ssm_demo.daos;"/>
+        <property name="basePackage" value="com.zk.ssm_demo.*.daos;"/>
     </bean>
-
-    <context:component-scan base-package="com.zk.ssm_demo.services;"/>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 指定上传文件的总大小(多个文件的总和大小)以字节为单位 ,举例 500k-->
@@ -94,5 +94,25 @@
         <property name="exposeRequestAttributes" value="true"></property>
         <property name="exposeSessionAttributes" value="true"></property>
     </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- path指定拦截的请求uri
+                /**  表示拦截所有的请求
+            -->
+            <mvc:mapping path="/**"/>
+            <bean class="com.zk.ssm_demo.common.entities.SystemInteceptor">
+                <property name="uncheckUrls">    <!-- 设置不拦截的url -->
+                    <list>
+                        <value>/${contextPath}/toIndex.do</value>
+                        <value>/${contextPath}/user/toRegister.do</value>
+                        <value>/${contextPath}/user/register.do</value>
+                        <value>/${contextPath}/user/toLogin.do</value>
+                        <value>/${contextPath}/user/login.do</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>

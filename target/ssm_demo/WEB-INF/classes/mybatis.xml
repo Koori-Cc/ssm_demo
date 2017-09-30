@@ -5,9 +5,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.zk.ssm_demo.entities.User" alias="User"/>
+		<typeAlias type="com.zk.ssm_demo.user.entities.User" alias="User"/>
+		<typeAlias type="com.zk.ssm_demo.role.entities.Role" alias="Role"/>
+		<typeAlias type="com.zk.ssm_demo.permission.entities.Permission" alias="Permission"/>
 	</typeAliases>
 	<mappers>
-		<mapper resource="com/zk/ssm_demo/mappers/UserDao.xml"/>
+		<mapper resource="com/zk/ssm_demo/user/mappers/UserDao.xml"/>
+		<mapper resource="com/zk/ssm_demo/role/mappers/RoleDao.xml"/>
+		<mapper resource="com/zk/ssm_demo/permission/mappers/PermissionDao.xml"/>
 	</mappers>
 </configuration>

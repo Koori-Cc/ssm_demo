@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="$!{rc.contextPath}/static/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.rtl.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.dataviz.default.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.silver.min.css" rel="stylesheet" />
+
+    <script src="$!{rc.contextPath}/static/js/jquery.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.all.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/console.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.web.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.grid.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/messages/kendo.messages.zh-CN.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.editor.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/jszip.min.js"></script>
+
+</head>
+
+##修饰弹出的详情页面
+<style type="text/css">
+    #details-container
+    {
+        padding: 10px;
+    }
+
+    #details-container h2
+    {
+        margin: 0;
+    }
+
+    #details-container em
+    {
+        color: #8c8c8c;
+    }
+
+    #details-container dt
+    {
+        margin:0;
+        display: inline;
+    }
+</style>
+
+##弹出的详情页模版
+<script type="text/x-kendo-template" id="template">
+    <div id="details-container">
+        <h2>#= name #</h2>     ##用 "#= name #" 和 "#: name #" 都能取值,放在里面的会被解析
+        <dl>
+            角色编码&nbsp;&nbsp;&nbsp;<dt>#= code #</dt>
+        </dl>
+    </div>
+</script>
+
+<script>
+
+    var detailWindow;    //详情窗口
+    var detailTemplate;   //详情窗口的模版
+
+    $(function() {
+
+        //初始化页面
+        initPage();
+
+        //------------------查询按钮--------------------
+        $("#search").click(function() {
+            queryData();
+        });
+
+        //------------------清空查询条件--------------------
+        $("#clear").bind("click",function() {
+            $("#name").val("");
+            $("#code").val("");
+            queryData();
+        });
+
+        //----------------弹出详情页-----------------
+        detailWindow = $("#detail").kendoWindow({
+                            title: "角色详情",
+                            modal: true,
+                            visible: false,
+                            resizable: false,
+                            width: 300
+                        }).data("kendoWindow");
+
+        detailTemplate = kendo.template($("#template").html());
+
+        $("#exportExcel").click(function() {
+            var grid = $("#grid").data("kendoGrid");
+            grid.saveAsExcel();
+        });
+
+    });//-------------jQuery启动函数结束------------
+
+
+
+    //----------------------页面初始化的方法----------------------------
+    function initPage() {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url:"$!{rc.contextPath}/role/list.do",  //列表
+                    dataType: 'json',
+                    type: 'POST',
+                    //contentType: 'application/json; charset=utf-8'   //如果传到后台的不是json,这个不能加,否则就接不到数据
+                },
+                destroy: {
+                    url: "$!{rc.contextPath}/role/delete.do",//删除
+                    dataType: "json",
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    complete:function() {
+                        queryData();     //每次删除后都重新更新列表
+                    }
+                },
+                update: {
+                    url: "$!{rc.contextPath}/role/edit.do",//修改
+                    dataType: "json",
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    complete:function() {
+                        queryData();
+                    }
+                },
+                create: {
+                    url: "$!{rc.contextPath}/role/add.do",//添加
+                    dataType: "json",
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    complete:function() {
+                        queryData();
+                    }
+                },
+                parameterMap : function(data, operation) {
+                    if (operation == "read") {   // 给后台传分页的条件
+                        var parameter = {     //key可以加引号
+                            "paginationVO.page" : data.page,    //当前页
+                            "paginationVO.pageSize" : data.pageSize, //每页显示个数
+                            "role.c_name" : $("#name").val(),
+                            "role.c_code" : $("#code").val()
+                        };
+                        return parameter;   //如果直接这么写,后台接收到的就是&分开的参数
+                    }else {
+                        //进行其他操作之前,先刷新grid中的数据(不加这个会导致新增或者修改的窗口无法关闭,而且数据不会更新))
+                        freshGrid();
+                        // options.models 是一个数组,直接传到后台会发生转换错误!!所以取第一个元素
+                        return kendo.stringify(data.models[0]);    //返回这一行的数据,json格式(创建,修改,删除)
+                    }
+                }
+            },
+            batch : true,    //这里必须是true,否则无法发出请求
+            pageSize : 5, //默认每页显示个数
+            schema : {
+                total: "total",   //可以直接这样取值
+                model: {
+                    id: "id",   //主键
+                    fields: {       // 这里写的是随表单一起提交的数据
+                        id: { editable: false, nullable: true }, //editable: false(是否需要编辑) nullable : true,(是否允许为空)
+                        //validation是验证,也就是在新建或者修改的时候,不能为空
+                        name: { validation: { required: true } },
+                        code: { validation: { required: true } }
+                    }
+                },
+                data : function(data) {
+                    return data.dataList;  //响应到页面的数据,key值是vo类定义好的
+                }
+            },
+            serverPaging : true,     //这三个是Grid的分页支持
+            serverFiltering : true,
+            serverSorting : true
+        });
+
+        $("#grid").kendoGrid({
+            dataSource : dataSource,
+            height : "",    //自动设置高度
+            pageable: {
+                refresh: true,  // 是否允许刷新页面
+                buttonCount: 5,  // 限制页数按钮的显示个数
+                pageSizes: [5, 10, 20, 50],
+                previousNext : true,// 是否允许有上一页、下一页、首页、尾页摁扭
+                numeric : true,// 是否显示翻页处的页数按钮
+                input : true,// 是否显示输入页数的文本框
+                messages : {
+                    display : "显示  {0}-{1} 条数据 总共 {2} 条数据",
+                    empty : "没有数据",
+                    itemsPerPage : "选择显示行数",
+                    refresh : "刷新",
+                    previous : "上一页",
+                    next : "下一页",
+                    last : "尾页",
+                    first : "首页"
+                }
+            },
+            selectable: "multiple",  // 是否可多选
+            editable: true,        //表格是否可编辑
+            navigatable: true,   //选中对应的单元格会有样式
+            selectable: "multiple cell",  //可选中单元格,去掉就是选中一整行
+            toolbar : [      //添加一个新增按钮
+                {
+                    name : "create",
+                    text : "新增角色"
+                }
+            ],
+            columns : [    //这里写的是具体在表格中显示的数据,不是随表单提交的数据
+                {
+                    field : "name",      //这个field是实体类的成员变量名
+                    title : "角色名称",
+                    template:function (data) {    //可写可不写,不写就会默认显示,一般用于判断多种值
+                        return "<span>"+data.name+"</span>"
+                    },
+                    attributes : {      //设置样式
+                        style : "text-align: center; font-size: 20px; color:blue;"
+                    }
+                }, {
+                    field : "code",
+                    title : "角色编码",
+                    attributes : {      //设置样式
+                        style : "text-align: center; font-size: 20px"
+                    }
+                },{
+                    command : [
+                        {
+                            name : "edit",
+                            text : {
+                                edit: "编辑",
+                                cancel: "取消",
+                                update: "确认"
+                            }
+                        }, {
+                            name : "destroy",
+                            text : "删除"
+                        },{
+                            text:"详情",
+                            title: " ",
+                            click:showDetail
+                        }
+                    ],
+                    title : "操作",
+                    attributes: {      //设置样式
+                        style: "text-align: center; font-size: 14px"
+                    }
+                } ],
+            editable : {// 设置可以在列表中进行编辑数据
+                // 设置删除时显示的确认信息
+                confirmation : "您确定要进行删除操作吗？",
+                //createAt : "top", // 添加位置，默认是top：从第一行进行添加
+                destroy : true,     // 是否允许删除
+                mode : "popup"      // 设置编辑形式为弹出框(popup)还是在列表中(inline)
+            },
+            excelExport: function(e) {
+                e.workbook.fileName = "角色列表.xlsx";    //定义导出文件的文件名
+            },
+            excel:{
+                allPages:false    //是否导出所有页中的数据,默认是false,也就是导出当前页的数据
+            }
+            //groupable : true,   //是否添加排序功能
+            //sortable: true  //是否添加分组功能
+        });
+
+    }//------------------------初始化页面方法结束----------------------------
+
+
+    // 会把查询条件一起发给后台
+    function queryData() {
+        var grid = $("#grid").data("kendoGrid");   //*********快速刷新页面
+        grid.dataSource.read();
+    }
+
+    // Grid刷新
+    function freshGrid() {
+        var grid = $("#grid").data("kendoGrid");
+        grid.refresh();
+    }
+
+    //清空数据源,分页的缓存数据全部清空
+    function clearData() {
+        $("#grid").data("kendoGrid").dataSource.data([]);
+    }
+
+
+    function showDetail(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        detailWindow.content(detailTemplate(dataItem));
+        detailWindow.center().open();
+    }
+
+
+
+    //--------------新增的编辑的文件上传-------------------END--------------------------------------------------------------
+
+</script>
+
+<body>
+
+    <!-- 可以在这里打印日志,调错方便 -->
+    <div class="box">
+        <h4>Console log</h4>
+        <div class="console"></div>
+    </div>
+
+    <div style="padding: 20px" align="center">
+        角色名称:<input type="text" id="name">&nbsp;&nbsp;
+        角色编码:<input type="text" id="code">&nbsp;&nbsp;
+        <input type="button" id="search" value="查询">
+        <input type="button" id="clear" value="清空">
+        <input type="button" id="exportExcel" value="导出">
+    </div>
+
+
+    <div id="grid"></div>
+
+    ##弹框需要定义一个div
+    <div id="detail"></div>
+
+</body>
+
+</html>

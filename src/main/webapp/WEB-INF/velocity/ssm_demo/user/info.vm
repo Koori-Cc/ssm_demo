@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+<div style="padding-top: 100px"></div>
+<div align="center">
+    <p>欢迎您:$session_user.name</p>
+    <img src="http://127.0.0.1:80/img/$session_user.photo">
+</div>
+
+<div style="padding-top: 100px"></div>
+<div align="center">
+    <a href="$!{rc.contextPath}/user/toChangePwd.do">修改密码</a><br><br>
+</div>
+
+
+
+
+</body>
+</html>

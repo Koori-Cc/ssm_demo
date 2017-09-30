@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+<h1 align="center" style="padding-top: 200px">欢迎您~</h1>
+<hr width="60%"/>
+
+<table width="50%" cellpadding="0px" cellspacing="0px" border="1px" align="center">
+    <tr style="height: 30px" align="center">
+        <td>
+            <a href="$!{rc.contextPath}/user/toRegister.do">注册</a>
+        </td>
+        <td>
+            <a href="$!{rc.contextPath}/user/toLogin.do">登录</a>
+        </td>
+    </tr>
+</table>
+
+
+
+</body>
+</html>

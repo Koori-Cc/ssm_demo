@@ -37,12 +37,18 @@ public class SystemInteceptor implements HandlerInterceptor {
     @Value("${open_url}")
     private String open_url;  //项目的索引页
 
+    @Value("${static_url}")
+    private String static_url;  //静态资源的路径
+
     private Logger logger = LoggerFactory.getLogger(SystemInteceptor.class);
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String requestUri = httpServletRequest.getRequestURI();
         User user = (User)httpServletRequest.getSession().getAttribute(KeyUtils.SESSION_USER);
-        if(!uncheckUrls.contains(requestUri) && user == null){   //拦截这些请求
+        //判断是否是静态资源,静态资源一律不拦截
+        if(requestUri.startsWith(static_url)) {
+            return true;
+        }else if(!uncheckUrls.contains(requestUri) && user == null){   //拦截这些请求
             httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/toIndex.do");
         }else if (uncheckUrls.contains(requestUri) && user != null) {    //包含这些请求的情况
             String requestPath = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + requestUri;

@@ -236,6 +236,9 @@
                             text:"详情",
                             title: " ",
                             click:showDetail
+                        },{
+                            text:"分配权限",
+                            click:assignPermission
                         }
                     ],
                     title : "操作",
@@ -292,6 +295,24 @@
 
     //--------------新增的编辑的文件上传-------------------END--------------------------------------------------------------
 
+    function assignPermission(e) {
+        //获取当前的数据
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var id = dataItem.id;
+
+        //打开窗口
+        $("#assignPermission").kendoWindow({
+            title: "分配权限",
+            width: 1200,
+            height: 600,
+            content: "$!{rc.contextPath}/rolePermissionRelation/toAssignPermission.do?id="+id,
+            modal: true
+        });
+
+        $("#assignPermission").data("kendoWindow").center().open();
+    }
+
+
 </script>
 
 <body>
@@ -315,6 +336,9 @@
 
     ##弹框需要定义一个div
     <div id="detail"></div>
+
+    ## 分配权限
+    <div id="assignPermission" style="display: none;"></div>
 
 </body>
 

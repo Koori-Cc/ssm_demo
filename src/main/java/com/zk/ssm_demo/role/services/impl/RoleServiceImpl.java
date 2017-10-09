@@ -65,4 +65,18 @@ public class RoleServiceImpl implements RoleService {
     public void updateRole(Role role) {
         roleDao.updateRole(role);
     }
+
+    public List<Role> queryRoleUserRelation(String userId) {
+        return roleDao.queryRoleUserRelation(userId);
+    }
+
+    public List<Role> queryRoleUserNoRelation(String userId) {
+        return roleDao.queryRoleUserNoRelation(userId);
+    }
+
+    public void addUserRoleRel(String roleId, String userId) {
+
+    }
+
+
 }

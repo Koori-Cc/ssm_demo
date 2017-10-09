@@ -1,13 +1,18 @@
 package com.zk.ssm_demo.user.services.impl;
 
 
+import com.zk.ssm_demo.role.daos.RoleDao;
+import com.zk.ssm_demo.role.entities.Role;
 import com.zk.ssm_demo.user.daos.UserDao;
 import com.zk.ssm_demo.user.entities.PaginationVO;
 import com.zk.ssm_demo.user.entities.User;
 import com.zk.ssm_demo.user.services.UserService;
+import com.zk.ssm_demo.userRoleRelation.daos.UserRoleRelationDao;
+import com.zk.ssm_demo.userRoleRelation.entities.UserRoleRelation;
 import com.zk.ssm_demo.utils.MD5Util;
 import com.zk.ssm_demo.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -25,12 +30,28 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private UserRoleRelationDao userRoleRelationDao;
+
+    @Value("${regular_role_code}")
+    private String regularRoleCode;
+
     public void register(User user) {
         String pwd = MD5Util.MD5(user.getPassword());
         user.setPassword(pwd);
         user.setId(UUIDUtils.getUUID());
         user.setCreateTime(new Date());
         userDao.insertUser(user);
+        // 用户注册后自动分配一个普通用户的角色
+        UserRoleRelation userRoleRelation = new UserRoleRelation();
+        userRoleRelation.setId(UUIDUtils.getUUID());
+        userRoleRelation.setUser_id(user.getId());
+        Role role = roleDao.queryRoleByCode(regularRoleCode);
+        userRoleRelation.setRole_id(role.getId());
+        userRoleRelationDao.insert(userRoleRelation);
     }
 
     public User login(User user) {

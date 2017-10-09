@@ -26,4 +26,12 @@ public interface RoleDao {
 
     void updateRole(Role role);
 
+    List<Role> queryRoleUserRelation(String userId);
+
+    List<Role> queryRoleUserNoRelation(String userId);
+
+    void addUserRoleRel(String roleId,String userId);
+
+    Role queryRoleByCode(String roleCode);
+
 }

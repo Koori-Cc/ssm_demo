@@ -1,5 +1,9 @@
 package com.zk.ssm_demo.user.controllers;
 
+import com.zk.ssm_demo.permission.entities.Permission;
+import com.zk.ssm_demo.permission.services.PermissionService;
+import com.zk.ssm_demo.role.entities.Role;
+import com.zk.ssm_demo.role.services.RoleService;
 import com.zk.ssm_demo.user.entities.PaginationVO;
 import com.zk.ssm_demo.user.entities.User;
 import com.zk.ssm_demo.user.services.UserService;
@@ -14,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,7 +35,6 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
 /**
@@ -43,6 +47,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private PermissionService permissionService;
 
     private Logger logger = Logger.getLogger(UserController.class);
 
@@ -60,8 +70,6 @@ public class UserController {
         String filename = "";
         //判断是否上传了文件
         if (!file.isEmpty()) {   //这个方法返回的是boolean
-            //ResourceBundle bundle = ResourceBundle.getBundle("config");
-            //String path = bundle.getString("nginx.imgPath");
             File storePath = new File(nginxImgPath);
             if(!storePath.exists()) {
                 storePath.mkdirs();
@@ -130,10 +138,19 @@ public class UserController {
         return "redirect:/toIndex.do";
     }
 
-
-
     @RequestMapping("/toMenu.do")
-    public String toMenu() {
+    public String toMenu(ModelMap modelMap,HttpServletRequest request) {
+        User user = (User) request.getSession(false).getAttribute(KeyUtils.SESSION_USER);
+        //查询该用户所有的角色
+        List<Role> roleList = roleService.queryRoleUserRelation(user.getId());
+        //根据角色查询所有的权限(无重复,提高效率)
+        List<Permission> permissionList = permissionService.queryPermissionListByRoleList(roleList);
+        List<String> permissionCodeList = new ArrayList<String>();
+        for(int i = 0; i < permissionList.size(); i++) {
+            permissionCodeList.add(permissionList.get(i).getCode());
+        }
+        //将权限编码存储进作用域
+        modelMap.put(KeyUtils.PERMISSION,permissionCodeList);
         return "ssm_demo/user/menu";
     }
 
@@ -169,7 +186,18 @@ public class UserController {
     }
 
     @RequestMapping("/toUserList.do")
-    public String toUserList() {
+    public String toUserList(ModelMap modelMap,HttpServletRequest request) {
+        User user = (User) request.getSession(false).getAttribute(KeyUtils.SESSION_USER);
+        //查询该用户所有的角色
+        List<Role> roleList = roleService.queryRoleUserRelation(user.getId());
+        //根据角色查询所有的权限(无重复,提高效率)
+        List<Permission> permissionList = permissionService.queryPermissionListByRoleList(roleList);
+        List<String> permissionCodeList = new ArrayList<String>();
+        for(int i = 0; i < permissionList.size(); i++) {
+            permissionCodeList.add(permissionList.get(i).getCode());
+        }
+        //将权限编码存储进作用域
+        modelMap.put(KeyUtils.PERMISSION,permissionCodeList);
         return "ssm_demo/user/userList";
     }
 
@@ -184,10 +212,11 @@ public class UserController {
     @ResponseBody
     public Object delete(String id) {
         boolean result;
-        Integer count = userService.deleteUserById(id);
-        if (count == 1) {
+        try{
+            Integer count = userService.deleteUserById(id);
             result = true;
-        } else {
+        } catch (Exception e) {
+            e.printStackTrace();
             result = false;
         }
         return result;

@@ -26,4 +26,8 @@ public interface PermissionDao {
 
     void updatePermission(Permission permission);
 
+    List<Permission> queryRolePermissionRelation(String roleId);
+
+    List<Permission> queryPermissionByRoleIds(List<String> idList);
+
 }

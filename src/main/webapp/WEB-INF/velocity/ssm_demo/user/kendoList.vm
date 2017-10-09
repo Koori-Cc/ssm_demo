@@ -243,16 +243,19 @@
             editable: true,        //表格是否可编辑
             navigatable: true,   //选中对应的单元格会有样式
             selectable: "multiple cell",  //可选中单元格,去掉就是选中一整行
-            toolbar : [      //添加一个新增按钮
-                {
-                    name : "create",
-                    text : "新增用户"
-                }
-            ],
+            #if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))
+                toolbar : [      //添加一个新增按钮
+                    {
+                        name : "create",
+                        text : "新增用户"
+                    }
+                ],
+            #end
             columns : [    //这里写的是具体在表格中显示的数据,不是随表单提交的数据
                 {
                     field : "name",      //这个field是实体类的成员变量名
-                    title : "姓名",
+                    title : "<h3 align='center'>姓名</h3>",
+                    width: 200,
                     template:function (data) {    //可写可不写,不写就会默认显示,一般用于判断多种值
                         return "<span>"+data.name+"</span>"
                     },
@@ -261,20 +264,23 @@
                     }
                 }, {
                     field : "age",
-                    title : "年龄",
+                    title : "<h3 align='center'>年龄</h3>",
+                    width: 200,
                     attributes : {      //设置样式
                         style : "text-align: center; font-size: 20px"
                     }
                 }, {
                     field : "address",
-                    title : "住址",
+                    title : "<h3 align='center'>住址</h3>",
+                    width: 200,
                     attributes : {      //设置样式
                         style : "text-align: center; font-size: 20px"
                     },
                     editor: addressDropDownEditor   //下拉列表
                 },  {
                     field: "photo",
-                    title: "头像",                      //这里的模版是在页面进行显示的数据
+                    title : "<h3 align='center'>头像</h3>",                     //这里的模版是在页面进行显示的数据
+                    width: 150,
                     template: "<img src='http://127.0.0.1:80/img/#:data.photo#'>",    //nginx代理的地址, #:data.photo#  用于取值
                     attributes : {      //设置样式
                         style : "text-align: center;"
@@ -282,7 +288,8 @@
                     editor: uploadImgEditor
                 },{
                     field: "s_createTime",
-                    title: "创建时间",
+                    title : "<h3 align='center'>创建时间</h3>",
+                    width: 300,
                     //format: "{0:yyyy-MM-dd}",    //不起作用?
                     attributes : {      //设置样式
                         style : "text-align: center;"
@@ -290,22 +297,30 @@
                 },{
                     command : [
                         {
-                            name : "edit",
-                            text : {
-                                edit: "编辑",
-                                cancel: "取消",
-                                update: "确认"
-                            }
-                        }, {
-                            name : "destroy",
-                            text : "删除"
-                        },{
                             text:"详情",
-                            title: " ",
                             click:showDetail
-                        }
+                        },
+                        ## 只有中高级的权限才能做以下的操作
+                        #if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))
+                            {
+                                name : "edit",
+                                text : {
+                                    edit: "编辑",
+                                    cancel: "取消",
+                                    update: "确认"
+                                }
+                            },
+                            {
+                                name : "destroy",
+                                text : "删除"
+                            },
+                            {
+                                text:"分配角色",
+                                click:assignRole
+                            }
+                        #end
                     ],
-                    title : "操作",
+                    title : "<h3 align='center'>操作</h3>",
                     attributes: {      //设置样式
                         style: "text-align: center; font-size: 14px"
                     }
@@ -419,10 +434,29 @@
         }
     }
 
-
-
-
     //--------------新增的编辑的文件上传-------------------END--------------------------------------------------------------
+
+    //------------------------------分配角色  start---------------------------------------------
+
+
+
+    function assignRole(e) {
+        //获取当前的数据
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var id = dataItem.id;
+
+        $("#assignRole").kendoWindow({
+            title: "分配角色",
+            width: 1200,
+            height: 600,
+            content: "$!{rc.contextPath}/role/toAssignRole.do?id="+id,
+            modal: true
+        });
+
+        $("#assignRole").data("kendoWindow").center().open();
+    }
+
+    //-------------------------------分配角色  end--------------------------------------------
 
 </script>
 
@@ -443,13 +477,19 @@
         <input type="button" id="exportExcel" value="导出">
     </div>
 
+#if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))
     ##上传图片的按钮,自动上传,不用提交表单
     <input type="file" name="file" id="uploadFile">
-
+#end
     <div id="grid"></div>
 
     ##弹框需要定义一个div
     <div id="detail"></div>
+
+    ## 分配角色
+    <div id="assignRole" style="display: none;"></div>
+
+
 
 </body>
 

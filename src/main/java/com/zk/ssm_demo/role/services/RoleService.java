@@ -23,4 +23,10 @@ public interface RoleService {
 
     void updateRole(Role role);
 
+    List<Role> queryRoleUserRelation(String userId);
+
+    List<Role> queryRoleUserNoRelation(String userId);
+
+    void addUserRoleRel(String roleId,String userId);
+
 }

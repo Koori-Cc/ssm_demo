@@ -4,15 +4,18 @@ package com.zk.ssm_demo.role.controllers;
 import com.zk.ssm_demo.common.entities.PaginationVO;
 import com.zk.ssm_demo.role.entities.Role;
 import com.zk.ssm_demo.role.services.RoleService;
+import com.zk.ssm_demo.user.entities.User;
+import com.zk.ssm_demo.user.services.UserService;
+import com.zk.ssm_demo.utils.KeyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by Koori_Cc on 2017/8/24.
@@ -27,6 +30,9 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/toList.do")
     public String toList() {
@@ -76,6 +82,24 @@ public class RoleController {
         roleService.deleteRoleById(id);
     }
 
+    @RequestMapping("/toAssignRole.do")
+    public String toAssignRole(String id,ModelMap model) {
+        //根据用户的id查询出用户对象
+        User user = userService.queryUserById(id);
+        model.addAttribute(KeyUtils.USER,user);
+
+        //查询相关联的角色
+        List<Role> relList = roleService.queryRoleUserRelation(id);
+        model.addAttribute(KeyUtils.REL_ROLE_LIST,relList);
+
+        //所有的角色
+        List<Role> roleList = roleService.queryRoleList();
+
+        //取差集
+        roleList.removeAll(relList);
+        model.addAttribute(KeyUtils.NO_REL_ROLE_LIST,roleList);
+        return "ssm_demo/role/assignRole";
+    }
 
 
 }

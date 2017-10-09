@@ -95,7 +95,9 @@
                     str += '<td width="30%" align="center"><a href="javascript:void(0);" class="detail" did="'+u.id+'">' + u.name + '</a></td>';
                     str += '<td width="30%" align="center">' + u.age + '</td>';
                     str += '<td width="30%" align="center">' + u.address + '</td>';
+                    #if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))
                     str += '<td width="40%" align="center"><a class="updateUser" uid="' + u.id + '" href="javascript:void(0);">修改</a>&nbsp;|&nbsp;<a class="deleteUser" did="' + u.id + '" href="javascript:void(0);">删除</a></td>';
+                    #end
                     str += '</tr>';
                 });
 
@@ -136,10 +138,12 @@
         <input id="searchBtn" type="button" value="查询">&nbsp;&nbsp;
         <input id="exportBtn" type="button" value="导出">&nbsp;&nbsp;
 
+    #if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))
         <form style="padding: 20px" action="${rc.contextPath}/user/import.do" method="post" enctype="multipart/form-data">
             <input name="file" type="file">
             <input id="importBtn" type="submit" value="导入">
         </form>
+    #end
 
 
     </div>
@@ -151,7 +155,9 @@
         <td width="20%" align="center">姓名</td>
         <td width="20%" align="center">年龄</td>
         <td width="20%" align="center">住址</td>
+    #if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))
         <td width="40%" align="center">操作</td>
+    #end
     </tr>
     </thead>
 

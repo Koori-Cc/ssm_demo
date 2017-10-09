@@ -41,8 +41,7 @@
         <property name="locations">
             <array>
                 <value>classpath:DBInfo.properties</value>   <!-- 数据库的配置文件 -->
-                <value>classpath:config-dev.properties</value>   <!-- 自定义的配置文件,在spring容器管理的bean中可以取值 -->
-                <value>classpath:config.properties</value>
+                <value>classpath:config.properties</value>   <!-- 自定义的配置文件 -->
             </array>
         </property>
     </bean>

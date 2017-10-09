@@ -60,4 +60,26 @@ public class Permission {
     /**
      * +++++++++++++++自定义属性  End+++++++++++++++
      */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Permission that = (Permission) o;
+
+        if (!id.equals(that.id)) return false;
+        if (!code.equals(that.code)) return false;
+        if (!name.equals(that.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + code.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
+    }
 }

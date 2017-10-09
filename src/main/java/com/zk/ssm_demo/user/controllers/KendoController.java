@@ -1,14 +1,21 @@
 package com.zk.ssm_demo.user.controllers;
 
+import com.zk.ssm_demo.permission.entities.Permission;
+import com.zk.ssm_demo.permission.services.PermissionService;
+import com.zk.ssm_demo.role.entities.Role;
+import com.zk.ssm_demo.role.services.RoleService;
 import com.zk.ssm_demo.user.entities.PaginationVO;
 import com.zk.ssm_demo.user.entities.User;
 import com.zk.ssm_demo.user.services.UserService;
+import com.zk.ssm_demo.utils.KeyUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -25,6 +32,12 @@ public class KendoController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private PermissionService permissionService;
+
     private Logger logger = Logger.getLogger(KendoController.class);
 
     @ModelAttribute("prepareUser")
@@ -34,7 +47,18 @@ public class KendoController {
 
 
     @RequestMapping("/toList.do")
-    public String toList() {
+    public String toList(ModelMap modelMap, HttpServletRequest request) {
+        User user = (User) request.getSession(false).getAttribute(KeyUtils.SESSION_USER);
+        //查询该用户所有的角色
+        List<Role> roleList = roleService.queryRoleUserRelation(user.getId());
+        //根据角色查询所有的权限
+        List<Permission> permissionList = permissionService.queryPermissionListByRoleList(roleList);
+        List<String> permissionCodeList = new ArrayList<String>();
+        for(int i = 0; i < permissionList.size(); i++) {
+            permissionCodeList.add(permissionList.get(i).getCode());
+        }
+        //将权限编码存储进作用域
+        modelMap.put(KeyUtils.PERMISSION,permissionCodeList);
         return "ssm_demo/user/kendoList";
     }
 
@@ -50,9 +74,17 @@ public class KendoController {
 
     @RequestMapping(value="/delete.do",method = RequestMethod.POST)
     @ResponseBody
-    public void delete(@RequestBody User user) {   //前台传过来的是json格式的字符串!!
+    public boolean delete(@RequestBody User user) {   //前台传过来的是json格式的字符串!!
         String id = user.getId();
-        Integer result = userService.deleteUserById(id);
+        boolean result;
+        try{
+            userService.deleteUserById(id);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = false;
+        }
+        return result;
     }
 
     @RequestMapping(value="/edit.do",method = RequestMethod.POST)

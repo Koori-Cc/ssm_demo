@@ -82,4 +82,21 @@
         UPDATE TBL_PERMISSION SET PERMISSION_NAME=#{name,jdbcType=VARCHAR},PERMISSION_CODE=#{code,jdbcType=VARCHAR} where ID=#{id,jdbcType=VARCHAR}
     </update>
 
+    <select id="queryRolePermissionRelation" resultMap="permissionResultMap">
+        SELECT * FROM TBL_PERMISSION p
+        JOIN TBL_ROLE_PERMISSION_REL rp
+        ON p.ID = rp.PERMISSION_ID
+        WHERE rp.ROLE_ID = #{role_id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryPermissionByRoleIds" resultMap="permissionResultMap">
+        SELECT * FROM TBL_PERMISSION p
+        JOIN TBL_ROLE_PERMISSION_REL rp
+        ON p.ID = rp.PERMISSION_ID
+        WHERE rp.ROLE_ID IN
+        <foreach collection="list" item="roleId" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach>
+    </select>
+
 </mapper>

@@ -81,5 +81,33 @@
         UPDATE TBL_ROLE SET ROLE_NAME=#{name,jdbcType=VARCHAR},ROLE_CODE=#{code,jdbcType=VARCHAR} where ROLE_ID=#{id,jdbcType=VARCHAR}
     </update>
 
+    <select id="queryRoleUserRelation" resultMap="roleResultMap">
+        SELECT * FROM TBL_ROLE WHERE ROLE_ID IN (
+            SELECT
+              ROLE_ID
+            from TBL_USER_ROLE_REL where USER_ID=#{userId,jdbcType=VARCHAR}
+        )
+    </select>
+
+    <select id="queryRoleUserNoRelation" resultMap="roleResultMap">
+        SELECT
+        *
+        from TBL_USER_ROLE_REL where USER_ID != #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="addUserRoleRel">
+        INSERT INTO TBL_USER_ROLE_REL(ID,ROLE_ID,USER_ID)
+        VALUES
+        (
+            #{id,jdbcType=VARCHAR},
+            #{roleId,jdbcType=VARCHAR},
+            #{userId,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="queryRoleByCode" resultMap="roleResultMap">
+        SELECT * FROM TBL_ROLE WHERE ROLE_CODE = #{roleCode}
+    </select>
+
 
 </mapper>

@@ -1,56 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6439884e-fb54-4363-9a31-e3f7a574dd39" name="Default" comment="2017/10/09  17:00  update">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/rolePermissionRelation/controllers/RolePermissionRelationController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/rolePermissionRelation/daos/RolePermissionRelationDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/rolePermissionRelation/entities/RolePermissionRelation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/rolePermissionRelation/mappers/RolePermissionRelationDao.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/rolePermissionRelation/services/RolePermissionRelationService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/rolePermissionRelation/services/impl/RolePermissionRelationServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/userRoleRelation/controllers/UserRoleRelationController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/userRoleRelation/daos/UserRoleRelationDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/userRoleRelation/entities/UserRoleRelation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/userRoleRelation/mappers/UserRoleRelationDao.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/userRoleRelation/services/UserRoleRelationService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/userRoleRelation/services/impl/UserRoleRelationServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/permission/assignPermission.vm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/role/assignRole.vm" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/config-dev.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/config-test.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/zk/ssm_demo/utils/KeyUtils.class" afterPath="$PROJECT_DIR$/target/classes/com/zk/ssm_demo/utils/KeyUtils.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/com/zk/ssm_demo/utils/KeyUtils.class" afterPath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/com/zk/ssm_demo/utils/KeyUtils.class" />
+    <list default="true" id="6439884e-fb54-4363-9a31-e3f7a574dd39" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/common/entities/SystemInteceptor.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/common/entities/SystemInteceptor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/daos/PermissionDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/daos/PermissionDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/entities/Permission.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/entities/Permission.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/mappers/PermissionDao.xml" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/mappers/PermissionDao.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/services/PermissionService.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/services/PermissionService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/services/impl/PermissionServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/services/impl/PermissionServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/controllers/RoleController.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/controllers/RoleController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/daos/RoleDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/daos/RoleDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/entities/Role.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/entities/Role.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/mappers/RoleDao.xml" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/mappers/RoleDao.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/services/RoleService.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/services/RoleService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/services/impl/RoleServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/services/impl/RoleServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/controllers/KendoController.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/controllers/KendoController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/controllers/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/controllers/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/services/impl/UserServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/services/impl/UserServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/utils/KeyUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/utils/KeyUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/config.properties" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/dispatcherServlet.xml" afterPath="$PROJECT_DIR$/src/main/resources/dispatcherServlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mybatis.xml" afterPath="$PROJECT_DIR$/src/main/resources/mybatis.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/role/list.vm" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/role/list.vm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/kendoList.vm" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/kendoList.vm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/login.vm" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/login.vm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/menu.vm" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/menu.vm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/userList.vm" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/userList.vm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/config.properties" afterPath="$PROJECT_DIR$/target/classes/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/dispatcherServlet.xml" afterPath="$PROJECT_DIR$/target/classes/dispatcherServlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mybatis.xml" afterPath="$PROJECT_DIR$/target/classes/mybatis.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/config.properties" afterPath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/dispatcherServlet.xml" afterPath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/dispatcherServlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/mybatis.xml" afterPath="$PROJECT_DIR$/target/ssm_demo/WEB-INF/classes/mybatis.xml" />
     </list>
     <ignored path="ssm_demo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,28 +29,7 @@
     <favorites_list name="ssm_demo" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="KendoController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/controllers/KendoController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="kendoList.vm" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/kendoList.vm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="808">
-              <caret line="318" column="48" selection-start-line="318" selection-start-column="48" selection-end-line="318" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -206,7 +138,24 @@
     </option>
   </component>
   <component name="MavenProjectNavigator">
-    <treeState />
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="ssm_demo Maven Webapp" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-9" />
@@ -286,22 +235,35 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ssm_demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ssm_demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../JCPT_SRC" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hccomponent-vehicleDetection/pom.xml" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -911,7 +873,8 @@
       <workItem from="1506731607013" duration="22832000" />
       <workItem from="1506757142851" duration="5333000" />
       <workItem from="1507509113341" duration="28162000" />
-      <workItem from="1507539950540" duration="23000" />
+      <workItem from="1507539950540" duration="151000" />
+      <workItem from="1507595663879" duration="5125000" />
     </task>
     <task id="LOCAL-00001" summary="2017/8/31  17:00  update">
       <created>1504170127909</created>
@@ -997,11 +960,18 @@
       <option name="project" value="LOCAL" />
       <updated>1506753189152</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="2017/10/09  17:00  update">
+      <created>1507540004462</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1507540004462</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="347729000" />
+    <option name="totallyTimeSpent" value="352982000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1019,25 +989,26 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3091733" sideWeight="0.49571276" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32842582" sideWeight="0.50428724" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32842582" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21291053" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18459795" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21291053" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32842582" sideWeight="0.49791667" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3022508" sideWeight="0.4942717" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17845659" sideWeight="0.4942717" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5057283" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24801812" sideWeight="0.49571276" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28878823" sideWeight="0.49571276" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1045,7 +1016,6 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3091733" sideWeight="0.49571276" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1261,6 +1231,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
           <caret line="25" column="15" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1341,9 +1314,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-491">
           <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1372,6 +1342,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-544">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1379,13 +1350,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
           <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/mappers/RoleDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="108" column="59" selection-start-line="108" selection-start-column="59" selection-end-line="108" selection-end-column="59" />
         </state>
       </provider>
     </entry>
@@ -1417,13 +1381,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/services/impl/PermissionServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/permission/list.vm">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1285">
@@ -1436,13 +1393,6 @@
         <state relative-caret-position="364">
           <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/mappers/PermissionDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -1474,18 +1424,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/controllers/KendoController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/role/mappers/RoleDao.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
-          <folding />
+        <state relative-caret-position="-7">
+          <caret line="89" column="13" selection-start-line="83" selection-start-column="4" selection-end-line="89" selection-end-column="13" />
+          <folding>
+            <marker date="1507533519864" expanded="true" signature="537:741" ph="INSERT INTO TBL_ROLE... " />
+            <marker date="1507533519864" expanded="true" signature="824:862" ph="SELECT * FRO... TBL_ROLE" />
+            <marker date="1507533519864" expanded="true" signature="1424:1802" ph="select * fro... TBL_ROLE" />
+            <marker date="1507533519864" expanded="true" signature="2104:2161" ph="DELETE FROM " />
+            <marker date="1507533519864" expanded="true" signature="2243:2318" ph="SELECT * fro... TBL_ROLE" />
+            <marker date="1507533519864" expanded="true" signature="2371:2497" ph="UPDATE TBL_R... " />
+            <marker date="1507533519864" expanded="true" signature="2587:2755" ph="SELECT * FRO... TBL_ROLE" />
+            <marker date="1507533519864" expanded="true" signature="2641:2745" ph="SELECT ROLE_... TBL_USER_ROLE_REL" />
+            <marker date="1507533519864" expanded="true" signature="2847:2938" ph="SELECT * fro... TBL_USER_ROLE_REL" />
+            <marker date="1507533519864" expanded="true" signature="2995:3194" ph="INSERT INTO TBL_USER_ROLE_REL... " />
+            <marker date="1507533519864" expanded="true" signature="3278:3330" ph="SELECT * FRO... TBL_ROLE" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/mappers/PermissionDao.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="95" column="27" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
+          <folding>
+            <marker date="1507531313521" expanded="true" signature="575:794" ph="INSERT INTO TBL_PERMISSION... " />
+            <marker date="1507531313521" expanded="true" signature="889:933" ph="SELECT * FRO... TBL_PERMISSION" />
+            <marker date="1507531313521" expanded="true" signature="1519:1957" ph="select * fro... TBL_PERMISSION" />
+            <marker date="1507531313521" expanded="true" signature="2265:2323" ph="DELETE FROM " />
+            <marker date="1507531313521" expanded="true" signature="2417:2493" ph="SELECT * fro... TBL_PERMISSION" />
+            <marker date="1507531313521" expanded="true" signature="2552:2691" ph="UPDATE TBL_P... " />
+            <marker date="1507531313521" expanded="true" signature="2793:2953" ph="SELECT * FRO... TBL_PERMISSION" />
+            <marker date="1507531313521" expanded="true" signature="3052:3185" ph="SELECT * FRO... TBL_PERMISSION" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/permission/services/impl/PermissionServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding>
+            <element signature="e#1888#1889#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/velocity/ssm_demo/user/kendoList.vm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="808">
-          <caret line="318" column="48" selection-start-line="318" selection-start-column="48" selection-end-line="318" selection-end-column="48" />
+        <state relative-caret-position="5397">
+          <caret line="257" column="45" selection-start-line="257" selection-start-column="45" selection-end-line="257" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zk/ssm_demo/user/controllers/KendoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="143" column="71" selection-start-line="143" selection-start-column="71" selection-end-line="143" selection-end-column="71" />
           <folding />
         </state>
       </provider>
@@ -1572,7 +1569,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.5069565" />
               </list>
             </option>
           </splitter-proportions>

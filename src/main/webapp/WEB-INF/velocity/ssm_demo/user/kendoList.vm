@@ -243,6 +243,7 @@
             editable: true,        //表格是否可编辑
             navigatable: true,   //选中对应的单元格会有样式
             selectable: "multiple cell",  //可选中单元格,去掉就是选中一整行
+            ## 只有中高级权限的用户才能有添加用户的权限
             #if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))
                 toolbar : [      //添加一个新增按钮
                     {

@@ -33,6 +33,7 @@
     ## 最高权限
     #if($permission.contains("HIGH_PERMISSION"))
         <a href="$!{rc.contextPath}/permission/toList.do">权限维护</a><br><br>
+        <a href="$!{rc.contextPath}/function/toIndex.do">功能测试</a><br><br>
     #end
 
 </div>

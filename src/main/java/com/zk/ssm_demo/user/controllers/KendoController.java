@@ -45,7 +45,6 @@ public class KendoController {
         return new User();
     }
 
-
     @RequestMapping("/toList.do")
     public String toList(ModelMap modelMap, HttpServletRequest request) {
         User user = (User) request.getSession(false).getAttribute(KeyUtils.SESSION_USER);
@@ -98,7 +97,6 @@ public class KendoController {
     public void add(@RequestBody User user) {          //返回值是void,也必须加 @ResponseBody ,不然会找不到路径
         userService.register(user);
     }
-
 
     @RequestMapping(value="/detail.do",method = RequestMethod.POST)
     @ResponseBody

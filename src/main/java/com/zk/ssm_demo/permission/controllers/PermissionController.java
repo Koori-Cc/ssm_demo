@@ -21,7 +21,6 @@ public class PermissionController {
 
     private Logger logger = LoggerFactory.getLogger(PermissionController.class);
 
-
     @Autowired
     private PermissionService permissionService;
 

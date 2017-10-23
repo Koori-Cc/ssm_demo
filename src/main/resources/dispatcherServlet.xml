@@ -24,9 +24,9 @@
     <task:annotation-driven/>
 
     <!-- 注册组件扫描器 -->
-    <context:component-scan base-package="com.zk.ssm_demo.*.controllers"/>
-    <context:component-scan base-package="com.zk.ssm_demo.*.services"/>
-    <context:component-scan base-package="com.zk.ssm_demo.*.entities"/>
+    <context:component-scan base-package="com.zk.*.*.controllers"/>
+    <context:component-scan base-package="com.zk.*.*.services"/>
+    <context:component-scan base-package="com.zk.*.*.entities"/>
 
     <!-- 注册注解驱动 -->
     <mvc:annotation-driven/>
@@ -61,7 +61,7 @@
     <!-- 生成了所有的dao接口的动态代理对象 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <property name="basePackage" value="com.zk.ssm_demo.*.daos;"/>
+        <property name="basePackage" value="com.zk.*.*.daos;"/>
     </bean>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

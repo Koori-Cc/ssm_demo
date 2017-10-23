@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.zk.ssm_demo.permission.entities.Permission" alias="Permission"/>
 		<typeAlias type="com.zk.ssm_demo.userRoleRelation.entities.UserRoleRelation" alias="UserRoleRelation"/>
 		<typeAlias type="com.zk.ssm_demo.rolePermissionRelation.entities.RolePermissionRelation" alias="RolePermissionRelation"/>
+		<typeAlias type="com.zk.function.ftp.entities.FtpEntity" alias="FtpEntity"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/zk/ssm_demo/user/mappers/UserDao.xml"/>
@@ -17,5 +18,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/zk/ssm_demo/permission/mappers/PermissionDao.xml"/>
 		<mapper resource="com/zk/ssm_demo/userRoleRelation/mappers/UserRoleRelationDao.xml"/>
 		<mapper resource="com/zk/ssm_demo/rolePermissionRelation/mappers/RolePermissionRelationDao.xml"/>
+		<mapper resource="com/zk/function/ftp/mappers/FtpDao.xml"/>
 	</mappers>
 </configuration>

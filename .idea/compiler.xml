@@ -26,10 +26,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="jtjc_aggregator" target="1.7" />
-      <module name="jtjc_core" target="1.7" />
-      <module name="jtjc_manage" target="1.7" />
-      <module name="manage" target="1.7" />
       <module name="ssm_demo" target="1.5" />
     </bytecodeTargetLevel>
   </component>

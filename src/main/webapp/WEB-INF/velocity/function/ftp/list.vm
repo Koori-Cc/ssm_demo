@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="$!{rc.contextPath}/static/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.rtl.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.dataviz.default.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.silver.min.css" rel="stylesheet" />
+
+    <script src="$!{rc.contextPath}/static/js/jquery.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.all.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/console.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.web.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.grid.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/messages/kendo.messages.zh-CN.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.editor.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/jszip.min.js"></script>
+
+</head>
+
+<script>
+
+
+    $(function() {
+
+        //初始化下拉框
+        initFileType();
+
+        //初始化页面
+        initPage();
+
+        //加载工具栏
+        toolbar();
+
+        //------------------查询按钮--------------------
+        $("#search").click(function() {
+            queryData();
+        });
+
+        //------------------清空查询条件--------------------
+        $("#clear").bind("click",function() {
+
+            $("#ip_search").val("");
+            $("#port_search").val("");
+            $("#prePath_search").val("");
+            $("#file_type").val("");
+            $("#filename_select").val("0");
+            $("#filename_search").val("");
+            queryData();
+        });
+
+        //一键下载查询出的数据
+        $("#downloadBtn").click(function() {
+            var flag = confirm("您确定要下载么?");
+            if(flag) {  //确定下载
+                var c_fileType = $("#file_type").val();
+                var c_filename_flag = $("#filename_select").val();
+                var filename = $("#filename_search").val();
+                var c_prePath = $("#prePath_search").val();
+                var c_port = $("#port_search").val();
+                var c_ip = $("#ip_search").val();
+
+                var data = "c_fileType=" + c_fileType + "&c_filename_flag=" + c_filename_flag + "&filename=" + filename
+                            + "&c_prePath=" + c_prePath + "&c_port=" + c_port + "&c_ip=" + c_ip;
+                //同步请求
+                window.location = "$!{rc.contextPath}/function/ftp/dowmloadFile.do?" + data;
+            }
+        });
+
+
+    });//-------------jQuery启动函数结束------------
+
+    //初始化文件类型的下拉框
+    function initFileType() {
+        //每次加在之前,先清空
+        $("#file_type").html('<option value="">---- 请选择文件类型 ----</option>');
+        $.ajax({
+            url:"$!{rc.contextPath}/function/ftp/fileType.do",
+            type:"POST",
+            dataType:"json",
+            success:function(data) {
+                var str = '';
+                $.each(data,function(i,t) {
+                    str += '<option value="'+ t +'">'+ t +'</option>'
+                });
+                $("#file_type").append(str);
+            }
+        });
+    }
+
+    //----------------------页面初始化的方法----------------------------
+    function initPage() {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url:"$!{rc.contextPath}/function/ftp/list.do",  //列表
+                    dataType: 'json',
+                    type: 'POST',
+                    //contentType: 'application/json; charset=utf-8'   //如果传到后台的不是json,这个不能加,否则就接不到数据
+                },
+                destroy: {
+                    url: "$!{rc.contextPath}/function/ftp/delete.do",//删除
+                    dataType: "json",
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    complete:function() {
+                        queryData();     //每次删除后都重新更新列表
+                        initFileType();   //重新加载下拉框
+                    }
+                },
+                update: {
+                    url: "$!{rc.contextPath}/function/ftp/update.do",//修改
+                    dataType: "json",
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    complete:function() {
+                        queryData();
+                        initFileType();   //重新加载下拉框
+                    }
+                },
+                create: {
+                    url: "$!{rc.contextPath}/function/ftp/insert.do",//添加
+                    dataType: "json",
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    complete:function() {
+                        queryData();
+                        initFileType();   //重新加载下拉框
+                    }
+                },
+                parameterMap : function(data, operation) {
+                    if (operation == "read") {   // 给后台传分页的条件
+                        var parameter = {     //key可以加引号
+                            "paginationVO.page" : data.page,    //当前页
+                            "paginationVO.pageSize" : data.pageSize, //每页显示个数
+                            "ftpEntity.c_fileType" : $("#file_type").val(),
+                            "ftpEntity.c_filename_flag" : $("#filename_select").val(),
+                            "ftpEntity.filename" : $("#filename_search").val(),
+                            "ftpEntity.c_prePath" : $("#prePath_search").val(),
+                            "ftpEntity.c_port" : $("#port_search").val(),
+                            "ftpEntity.c_ip" : $("#ip_search").val()
+                        };
+                        return parameter;   //如果直接这么写,后台接收到的就是&分开的参数
+                    }else {
+                        //进行其他操作之前,先刷新grid中的数据(不加这个会导致新增或者修改的窗口无法关闭,而且数据不会更新))
+                        freshGrid();
+                        // options.models 是一个数组,直接传到后台会发生转换错误!!所以取第一个元素
+                        return kendo.stringify(data.models[0]);    //返回这一行的数据,json格式(创建,修改,删除)
+                    }
+                }
+            },
+            batch : true,    //这里必须是true,否则无法发出请求
+            pageSize : 5, //默认每页显示个数
+            schema : {
+                total: "totalCount",   //可以直接这样取值
+                model: {
+                    id: "id",   //主键
+                    fields: {       // 这里写的是随表单一起提交的数据
+                        id: { editable: false, nullable: true }, //editable: false(是否需要编辑) nullable : true,(是否允许为空)
+                        //validation是验证,也就是在新建或者修改的时候,不能为空
+                        ip: { validation: { required: true } },
+                        port: { validation: { required: true } },
+                        username: { validation: { required: true } },
+                        password: { validation: { required: true } },
+                        timeout: { validation: { required: true } },
+                        filename: { validation: { required: true } },
+                        prePath: { validation: { required: true } },
+                        fileType: { validation: { required: true } }
+                    }
+                },
+                data : function(data) {
+                    return data.dataList;  //响应到页面的数据,key值是vo类定义好的
+                }
+            },
+            serverPaging : true,     //这三个是Grid的分页支持
+            serverFiltering : true,
+            serverSorting : true
+        });
+
+        $("#grid").kendoGrid({
+            dataSource : dataSource,
+            height : "",    //自动设置高度
+            pageable: {
+                refresh: true,  // 是否允许刷新页面
+                buttonCount: 5,  // 限制页数按钮的显示个数
+                pageSizes: [5, 10, 20, 50],
+                previousNext : true,// 是否允许有上一页、下一页、首页、尾页摁扭
+                numeric : true,// 是否显示翻页处的页数按钮
+                input : true,// 是否显示输入页数的文本框
+                messages : {
+                    display : "显示  {0}-{1} 条数据 总共 {2} 条数据",
+                    empty : "没有数据",
+                    itemsPerPage : "选择显示行数",
+                    refresh : "刷新",
+                    previous : "上一页",
+                    next : "下一页",
+                    last : "尾页",
+                    first : "首页"
+                }
+            },
+            selectable: "multiple",  // 是否可多选
+            editable: true,        //表格是否可编辑
+            navigatable: true,   //选中对应的单元格会有样式
+            selectable: "multiple cell",  //可选中单元格,去掉就是选中一整行
+            toolbar : [      //添加一个新增按钮
+                {
+                    name : "create",
+                    text : "新增文件"
+                }
+            ],
+            columns : [    //这里写的是具体在表格中显示的数据,不是随表单提交的数据
+                {
+                    field : "ip",      //这个field是实体类的成员变量名
+                    title : "ip地址",
+                    template:function (data) {    //可写可不写,不写就会默认显示,一般用于判断多种值
+                        return "<span>"+data.ip+"</span>"
+                    },
+                    attributes : {      //设置样式
+                        style : "text-align: center; font-size: 20px; color:blue;"
+                    }
+                }, {
+                    field : "port",
+                    title : "端口号",
+                    attributes : {      //设置样式
+                        style : "text-align: center; font-size: 20px;"
+                    }
+                },  {
+                    field : "prePath",
+                    title : "文件路径",
+                    attributes : {      //设置样式
+                        style : "text-align: center; font-size: 20px"
+                    }
+                }, {
+                    field : "filename",
+                    title : "文件名称",
+                    attributes : {      //设置样式
+                        style : "text-align: center; font-size: 20px"
+                    }
+                },{
+                    field : "fileType",
+                    title : "文件类型",
+                    attributes : {      //设置样式
+                        style : "text-align: center; font-size: 20px"
+                    }
+                },{
+                    title : "操作",
+                    attributes: {      //设置样式
+                        style: "text-align: center; font-size: 14px"
+                    },
+                    command : [
+                        {
+                            name : "edit",
+                            text : {
+                                edit: "编辑",
+                                cancel: "取消",
+                                update: "确认"
+                            }
+                        }, {
+                            name : "destroy",
+                            text : "删除"
+                        }
+                    ]
+                } ],
+            editable : {// 设置可以在列表中进行编辑数据
+                // 设置删除时显示的确认信息
+                confirmation : "您确定要进行删除操作吗？",
+                //createAt : "top", // 添加位置，默认是top：从第一行进行添加
+                destroy : true,     // 是否允许删除
+                mode : "popup"      // 设置编辑形式为弹出框(popup)还是在列表中(inline)
+            }
+        });
+
+    }//------------------------初始化页面方法结束----------------------------
+
+
+    //-------------加载工具栏-----------------
+    function toolbar() {
+        $("#toolbar").kendoToolBar({
+            items: [
+                {
+                    type: "button",
+                    id: "button1",
+                    text: "一键导入",
+                    click: importExcel
+                }
+            ]
+        });
+    }
+
+    function importExcel() {
+        //打开窗口
+        $("#importExcel").kendoWindow({
+            title: "导入excel",
+            width: 800,
+            height: 500,
+            content: "$!{rc.contextPath}/function/ftp/toImportExcel.do",
+            modal: true
+        });
+
+        $("#importExcel").data("kendoWindow").center().open();
+    }
+
+    // 会把查询条件一起发给后台
+    function queryData() {
+        var grid = $("#grid").data("kendoGrid");   //*********快速刷新页面
+        grid.dataSource.read();
+    }
+
+    // Grid刷新
+    function freshGrid() {
+        var grid = $("#grid").data("kendoGrid");
+        grid.refresh();
+    }
+
+    //清空数据源,分页的缓存数据全部清空
+    function clearData() {
+        $("#grid").data("kendoGrid").dataSource.data([]);
+    }
+
+</script>
+
+<body>
+
+    <div style="padding: 20px" align="center">
+
+        IP:<input type="text" id="ip_search">&nbsp;&nbsp;
+        端口:<input type="text" id="port_search"><br/>
+
+        <div style="padding: 5px"></div>
+
+        文件路径:<input type="text" id="prePath_search">&nbsp;&nbsp;
+        文件类型:<select id="file_type"></select>&nbsp;&nbsp;<br/>
+
+        <div style="padding: 5px"></div>
+
+        文件名称:
+        <select id="filename_select">
+            <option value="0">----精确查找----</option>
+            <option value="1">----模糊查找----</option>
+        </select>
+        <input type="text" id="filename_search">
+
+
+        <br/>
+
+        <div style="padding: 5px"></div>
+
+        <input type="button" id="search" value="查询">
+        <input type="button" id="clear" value="清空">
+        <input type="button" id="downloadBtn" value="一键下载">
+    </div>
+
+
+    <div id="toolbar"></div>
+    <div id="grid"></div>
+
+    <div id="importExcel"></div>
+
+</body>
+</html>

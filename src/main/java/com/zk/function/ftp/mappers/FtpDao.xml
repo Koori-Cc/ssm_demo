@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zk.function.ftp.daos.FtpDao">
+
+    <resultMap type="FtpEntity" id="ftpEntityResultMap">
+        <!-- 用id属性来映射主键字段 -->
+        <id property="id" column="ID"/>
+        <!-- 用result属性来映射非主键字段 -->
+        <result property="ip" column="IP"/>
+        <result property="port" column="PORT"/>
+        <result property="username" column="USERNAME"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="timeout" column="TIMEOUT"/>
+        <result property="filename" column="FILENAME"/>
+        <result property="prePath" column="PREPATH"/>
+        <result property="urlPath" column="URLPATH"/>
+        <result property="fileType" column="FILETYPE"/>
+    </resultMap>
+
+
+    <insert id="insert">
+        INSERT INTO TBL_FTP_ENTITY
+        (ID,IP,PORT,USERNAME,PASSWORD,TIMEOUT,FILENAME,PREPATH,URLPATH,FILETYPE)
+        VALUES
+        (
+            #{id,jdbcType=VARCHAR},
+            #{ip,jdbcType=VARCHAR},
+            #{port,jdbcType=NUMERIC},
+            #{username,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            #{timeout,jdbcType=NUMERIC},
+            #{filename,jdbcType=VARCHAR},
+            #{prePath,jdbcType=VARCHAR},
+            #{urlPath,jdbcType=VARCHAR},
+            #{fileType,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into TBL_FTP_ENTITY (ID,IP,PORT,USERNAME,PASSWORD,TIMEOUT,FILENAME,PREPATH,URLPATH,FILETYPE)
+        <foreach open="(" close=")" collection="list" item="item" separator="union">
+            select
+                #{item.id,jdbcType=VARCHAR},
+                #{item.ip,jdbcType=VARCHAR},
+                #{item.port,jdbcType=NUMERIC},
+                #{item.username,jdbcType=VARCHAR},
+                #{item.password,jdbcType=VARCHAR},
+                #{item.timeout,jdbcType=NUMERIC},
+                #{item.filename,jdbcType=VARCHAR},
+                #{item.prePath,jdbcType=VARCHAR},
+                #{item.urlPath,jdbcType=VARCHAR},
+                #{item.fileType,jdbcType=VARCHAR}
+            from dual
+        </foreach>
+    </insert>
+
+
+    <select id="queryTotalCount" resultType="long">
+	        SELECT count(id) from TBL_FTP_ENTITY
+	        <where>
+	            <if  test='c_ip != null and c_ip!=""' >
+	                and IP = #{c_ip}
+	            </if>
+	            <if  test='c_port != null and c_port!=""' >
+	                and PORT = #{c_port}
+	            </if>
+	            <if  test='c_filename != null and c_filename!=""' >
+	                and FILENAME like '%'||#{c_filename}||'%'
+	            </if>
+                <if  test='c_jq_filename != null and c_jq_filename!=""' >
+                    and FILENAME = #{c_jq_filename}
+                </if>
+                <if  test='c_prePath != null and c_prePath!=""' >
+                    and PREPATH like '%'||#{c_prePath}||'%'
+                </if>
+                <if  test='c_fileType != null and c_fileType!=""' >
+                    and FILETYPE = #{c_fileType}
+                </if>
+	        </where>
+	    </select>
+
+    <select id="queryListByCondition" resultMap="ftpEntityResultMap">
+		select * from
+		(
+		select A.* ,ROWNUM rn
+		from (select
+            *
+		from TBL_FTP_ENTITY
+        <where>
+            <if  test='entity.c_ip != null and entity.c_ip!=""' >
+                and IP = #{entity.c_ip}
+            </if>
+            <if  test='entity.c_port != null and entity.c_port!=""' >
+                and PORT = #{entity.c_port}
+            </if>
+            <if  test='entity.c_filename != null and entity.c_filename!=""' >
+                and FILENAME like '%'||#{entity.c_filename}||'%'
+            </if>
+            <if  test='entity.c_jq_filename != null and entity.c_jq_filename!=""' >
+                and FILENAME = #{entity.c_jq_filename}
+            </if>
+            <if  test='entity.c_prePath != null and entity.c_prePath!=""' >
+                and PREPATH like '%'||#{entity.c_prePath}||'%'
+            </if>
+            <if  test='entity.c_fileType != null and entity.c_fileType!=""' >
+                and FILETYPE = #{entity.c_fileType}
+            </if>
+        </where> order by FILENAME)A
+
+		<if test='vo.endRow != null and vo.endRow!=""' >
+			where ROWNUM &lt;= #{vo.endRow}
+		</if>
+		)
+		<if test='vo.startRow != null and vo.startRow!=""' >
+			Where rn &gt;= #{vo.startRow}
+		</if>
+	</select>
+
+    <update id="update">
+        UPDATE
+            TBL_FTP_ENTITY
+        SET
+            IP = #{ip,jdbcType=VARCHAR},
+            PORT = #{port,jdbcType=NUMERIC},
+            USERNAME = #{username,jdbcType=VARCHAR},
+            PASSWORD = #{password,jdbcType=VARCHAR},
+            TIMEOUT = #{timeout,jdbcType=NUMERIC},
+            FILENAME = #{filename,jdbcType=VARCHAR},
+            PREPATH = #{prePath,jdbcType=VARCHAR},
+            URLPATH = #{urlPath,jdbcType=VARCHAR},
+            FILETYPE = #{fileType,jdbcType=VARCHAR}
+        where
+            id=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM TBL_FTP_ENTITY where ID = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="queryFileTypeList" resultType="string">
+        SELECT FILETYPE FROM TBL_FTP_ENTITY GROUP BY FILETYPE
+    </select>
+
+    <select id="queryByCondition" resultMap="ftpEntityResultMap">
+        SELECT * from TBL_FTP_ENTITY
+        <where>
+            <if  test='c_ip != null and c_ip!=""' >
+                and IP = #{c_ip}
+            </if>
+            <if  test='c_port != null and c_port!=""' >
+                and PORT = #{c_port}
+            </if>
+            <if  test='c_filename != null and c_filename!=""' >
+                and FILENAME like '%'||#{c_filename}||'%'
+            </if>
+            <if  test='c_jq_filename != null and c_jq_filename!=""' >
+                and FILENAME = #{c_jq_filename}
+            </if>
+            <if  test='c_prePath != null and c_prePath!=""' >
+                and PREPATH like '%'||#{c_prePath}||'%'
+            </if>
+            <if  test='c_fileType != null and c_fileType!=""' >
+                and FILETYPE = #{c_fileType}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

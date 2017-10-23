@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+<div style="padding-top: 20px"></div>
+<div align="center">
+    
+    <a href="$!{rc.contextPath}/function/ftp/toList.do">ftp测试</a><br><br>
+
+</div>
+
+
+</body>
+</html>

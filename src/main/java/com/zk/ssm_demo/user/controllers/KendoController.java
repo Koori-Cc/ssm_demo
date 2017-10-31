@@ -48,16 +48,22 @@ public class KendoController {
     @RequestMapping("/toList.do")
     public String toList(ModelMap modelMap, HttpServletRequest request) {
         User user = (User) request.getSession(false).getAttribute(KeyUtils.SESSION_USER);
-        //查询该用户所有的角色
-        List<Role> roleList = roleService.queryRoleUserRelation(user.getId());
-        //根据角色查询所有的权限
-        List<Permission> permissionList = permissionService.queryPermissionListByRoleList(roleList);
-        List<String> permissionCodeList = new ArrayList<String>();
-        for(int i = 0; i < permissionList.size(); i++) {
-            permissionCodeList.add(permissionList.get(i).getCode());
+        /**
+         * 说明,如果user为空就说明session已经过期,这个时候应该重定向到登录页面,但是在这之前,还是会来到这个控制器,所以要判断user不能为null
+         */
+        if(user != null) {   //避免空指针异常
+            //查询该用户所有的角色
+            List<Role> roleList = roleService.queryRoleUserRelation(user.getId());
+            //根据角色查询所有的权限
+            List<Permission> permissionList = permissionService.queryPermissionListByRoleList(roleList);
+            List<String> permissionCodeList = new ArrayList<String>();
+            for(int i = 0; i < permissionList.size(); i++) {
+                permissionCodeList.add(permissionList.get(i).getCode());
+            }
+            //将权限编码存储进作用域
+            modelMap.put(KeyUtils.PERMISSION,permissionCodeList);
         }
-        //将权限编码存储进作用域
-        modelMap.put(KeyUtils.PERMISSION,permissionCodeList);
+        //如果拦截器已经拦截,已经要重定向到登录页,这个就不起作用了
         return "ssm_demo/user/kendoList";
     }
 
@@ -84,6 +90,11 @@ public class KendoController {
             result = false;
         }
         return result;
+    }
+
+    @RequestMapping(value="/toEdit.do")
+    public String toEdit(String id) {
+        return "ssm_demo/user/editUser";
     }
 
     @RequestMapping(value="/edit.do",method = RequestMethod.POST)

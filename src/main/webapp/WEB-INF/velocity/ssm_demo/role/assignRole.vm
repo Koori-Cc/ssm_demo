@@ -12,12 +12,7 @@
 
     <script src="$!{rc.contextPath}/static/js/jquery.min.js"></script>
     <script src="$!{rc.contextPath}/static/js/kendo.all.min.js"></script>
-    <script src="$!{rc.contextPath}/static/js/console.js"></script>
-    <script src="$!{rc.contextPath}/static/js/kendo.web.min.js"></script>
-    <script src="$!{rc.contextPath}/static/js/kendo.grid.min.js"></script>
-    <script src="$!{rc.contextPath}/static/js/messages/kendo.messages.zh-CN.min.js"></script>
-    <script src="$!{rc.contextPath}/static/js/kendo.editor.min.js"></script>
-    <script src="$!{rc.contextPath}/static/js/jszip.min.js"></script>
+
 
 </head>
 
@@ -74,44 +69,44 @@
 </script>
 
 <body>
-    <div align="center" style="padding: 30px">
-        <h1>角色列表</h1>--
-        <h3>$!{user.name}</h3>
-    </div>
+<div align="center" style="padding: 30px">
+    <h1>角色列表</h1>--
+    <h3>$!{user.name}</h3>
+</div>
 
 
-    <table width="1000px" border="1px" cellspacing="0" cellpadding="0" align="center">
-        <input id="userId" type="hidden" value="$!{user.id}">
-        <thead>
-            <tr align="center" style="height: 70px">
-                <td>角色名称</td>
-                <td>角色编码</td>
-                <td>操作联</td>
+<table width="1000px" border="1px" cellspacing="0" cellpadding="0" align="center">
+    <input id="userId" type="hidden" value="$!{user.id}">
+    <thead>
+    <tr align="center" style="height: 70px">
+        <td>角色名称</td>
+        <td>角色编码</td>
+        <td>操作联</td>
+    </tr>
+    </thead>
+
+    <tbody id="roleTbody">
+        #if($no_rel_role_list.size() != 0)
+            #foreach($role in $no_rel_role_list)
+            <tr id="$role.id"  align="center" style="height: 50px">
+                <td>$role.name</td>
+                <td>$role.code</td>
+                <td><a class="addAssignBtn" href="javascript:void(0);">添加关联</a></td>
             </tr>
-        </thead>
-
-        <tbody id="roleTbody">
-            #if($no_rel_role_list.size() != 0)
-                #foreach($role in $no_rel_role_list)
-                    <tr id="$role.id"  align="center" style="height: 50px">
-                        <td>$role.name</td>
-                        <td>$role.code</td>
-                        <td><a class="addAssignBtn" href="javascript:void(0);">添加关联</a></td>
-                    </tr>
-                #end
             #end
-            #if($rel_role_list.size() != 0)
-                #foreach($role in $rel_role_list)
-                    <tr id="$role.id" align="center" style="height: 50px">
-                        <td>$role.name</td>
-                        <td>$role.code</td>
-                        <td><a class="cancelAssignBtn" href="javascript:void(0);">解除关联</a></td>
-                    </tr>
-                #end
+        #end
+        #if($rel_role_list.size() != 0)
+            #foreach($role in $rel_role_list)
+            <tr id="$role.id" align="center" style="height: 50px">
+                <td>$role.name</td>
+                <td>$role.code</td>
+                <td><a class="cancelAssignBtn" href="javascript:void(0);">解除关联</a></td>
+            </tr>
             #end
-        </tbody>
+        #end
+    </tbody>
 
-    </table>
+</table>
 
 
 </body>

@@ -12,7 +12,6 @@
 
     <script src="$!{rc.contextPath}/static/js/jquery.min.js"></script>
     <script src="$!{rc.contextPath}/static/js/kendo.all.min.js"></script>
-    <script src="$!{rc.contextPath}/static/js/console.js"></script>
     <script src="$!{rc.contextPath}/static/js/kendo.web.min.js"></script>
     <script src="$!{rc.contextPath}/static/js/kendo.grid.min.js"></script>
     <script src="$!{rc.contextPath}/static/js/messages/kendo.messages.zh-CN.min.js"></script>
@@ -43,6 +42,7 @@
         margin:0;
         display: inline;
     }
+
 </style>
 
 ##弹出的详情页模版
@@ -62,11 +62,14 @@
 
     var detailWindow;    //详情窗口
     var detailTemplate;   //详情窗口的模版
+    var editUser_window;   //编辑用户的窗口
+    var role_window;     //分配角色的窗口
 
     $(function() {
 
         //初始化页面
         initPage();
+
 
         //------------------查询按钮--------------------
         $("#search").click(function() {
@@ -128,6 +131,7 @@
                 }
             }
         });
+
 
 
     });//-------------jQuery启动函数结束------------
@@ -316,8 +320,8 @@
                                 text : "删除"
                             },
                             {
-                                text:"分配角色",
-                                click:assignRole
+                                text : "分配角色",
+                                click : assignRole
                             }
                         #end
                     ],
@@ -389,6 +393,7 @@
         detailWindow.center().open();
     }
 
+
     //--------------新增,编辑的文件上传--------------------START------------------------------------------------------------
     //字段修改格式化,修改框转换为上传按钮
     function uploadImgEditor(container, options) {
@@ -412,14 +417,10 @@
                 maxFileSize: 4194304
             },
             showFileList : false,    //不展示上传的文件列表
-            complete: uploadPhotoComplete,  //响应后,这个函数一定会执行
+            //complete: uploadPhotoComplete,  //响应后,这个函数一定会执行
             success: uploadPhotoSuccess
         });
 
-    }
-
-    function uploadPhotoComplete(e) {
-        kendoConsole.log(" ---Complete--- ");
     }
 
     //不手动改动内容,就不会随着表单一起提交??而且提交的上一次的数据
@@ -437,37 +438,49 @@
 
     //--------------新增的编辑的文件上传-------------------END--------------------------------------------------------------
 
+
     //------------------------------分配角色  start---------------------------------------------
-
-
-
     function assignRole(e) {
         //获取当前的数据
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var id = dataItem.id;
-
-        $("#assignRole").kendoWindow({
+        role_window = $("#roleDiv").kendoWindow({
+            actions: ["Refresh", "Maximize", "Minimize", "Close"],
             title: "分配角色",
             width: 1200,
-            height: 600,
+            height: 500,
             content: "$!{rc.contextPath}/role/toAssignRole.do?id="+id,
-            modal: true
-        });
+            modal: true,
+            resizable:true,    //设置窗口尺寸是否可调节
+            draggable:true,     //设置窗口是否可拖拽
+            //open: onOpen,      //打开窗口做的操作
+            //close: onClose,      //关闭窗口的操作
+            //refresh:onRefresh,    //刷新窗口的操作
+        }).data("kendoWindow");
 
-        $("#assignRole").data("kendoWindow").center().open();
+
+        role_window.center();
+        role_window.open();
     }
 
+//    function onOpen() {
+//        alert("onOpen");
+//    }
+//    function onClose() {
+//        alert("onClose");
+//    }
+//    function onRefresh() {
+//        alert("onRefresh");
+//    }
+
     //-------------------------------分配角色  end--------------------------------------------
+
+
 
 </script>
 
 <body>
 
-    <!-- 可以在这里打印日志,调错方便 -->
-    <div class="box">
-        <h4>Console log</h4>
-        <div class="console"></div>
-    </div>
 
     <div style="padding: 20px" align="center">
         姓名:<input type="text" id="name">&nbsp;&nbsp;
@@ -482,14 +495,14 @@
     ##上传图片的按钮,自动上传,不用提交表单
     <input type="file" name="file" id="uploadFile">
 #end
+
     <div id="grid"></div>
 
-    ##弹框需要定义一个div
-    <div id="detail"></div>
+    ##弹框需要定义一个div,详情的div
+    <div id="detail" style="display: none;"></div>
 
     ## 分配角色
-    <div id="assignRole" style="display: none;"></div>
-
+    <div id="roleDiv" style="display: none;"></div>
 
 
 </body>

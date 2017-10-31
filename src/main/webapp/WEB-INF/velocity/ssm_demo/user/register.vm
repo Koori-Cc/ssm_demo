@@ -109,10 +109,10 @@
     重复密码:<input id="re_pwd" type="password"><span id="s_re_pwd" style="color: red"></span><br>
     年龄:<input id="age" type="text" name="age"><span id="s_age" style="color: red"></span><br>
     地址:<input id="address" type="text" name="address"><span id="s_address" style="color: red"></span><br>
+
     头像:<input type="file" name="myPhoto"><br>
+
     <input id="registerBtn" type="button" value="注册"><br>
-
-
 
 </form>
 

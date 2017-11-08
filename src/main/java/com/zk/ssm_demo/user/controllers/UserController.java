@@ -138,6 +138,13 @@ public class UserController {
         return "redirect:/toIndex.do";
     }
 
+    /**
+     * @author Koori_Cc
+     * @param modelMap
+     * @param request
+     * @description 转到菜单页面
+     * @return
+     */
     @RequestMapping("/toMenu.do")
     public String toMenu(ModelMap modelMap,HttpServletRequest request) {
         User user = (User) request.getSession(false).getAttribute(KeyUtils.SESSION_USER);

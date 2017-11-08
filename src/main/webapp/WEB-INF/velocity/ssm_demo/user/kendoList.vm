@@ -281,7 +281,7 @@
                     attributes : {      //设置样式
                         style : "text-align: center; font-size: 20px"
                     },
-                    editor: addressDropDownEditor   //下拉列表
+                    editor : addressDropDownEditor   //下拉列表
                 },  {
                     field: "photo",
                     title : "<h3 align='center'>头像</h3>",                     //这里的模版是在页面进行显示的数据
@@ -290,7 +290,7 @@
                     attributes : {      //设置样式
                         style : "text-align: center;"
                     },
-                    editor: uploadImgEditor
+                    editor : uploadImgEditor
                 },{
                     field: "s_createTime",
                     title : "<h3 align='center'>创建时间</h3>",
@@ -302,8 +302,8 @@
                 },{
                     command : [
                         {
-                            text:"详情",
-                            click:showDetail
+                            text : "详情",
+                            click : showDetail
                         },
                         ## 只有中高级的权限才能做以下的操作
                         #if($permission.contains("HIGH_PERMISSION") or $permission.contains("MIDDLE_PERMISSION"))

@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/javascript" src="${rc.contextPath}/static/js/jquery.min.js"></script>
+
 </head>
 </head>
 <body>
@@ -23,13 +24,18 @@
 
 
 
+
+
 <script>
 
     $(function() {
 
+
+
     });
 
 </script>
+
 
 
 

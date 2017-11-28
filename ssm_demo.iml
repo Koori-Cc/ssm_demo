@@ -76,5 +76,6 @@
     <orderEntry type="library" name="Maven: com.oracle:ojdbc6:11.2.0.1.0" level="project" />
     <orderEntry type="library" name="Maven: commons-net:commons-net:2.0" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.jexcelapi:jxl:2.6.12" level="project" />
+    <orderEntry type="library" name="Maven: com.github.abel533:ECharts:2.2.6" level="project" />
   </component>
 </module>

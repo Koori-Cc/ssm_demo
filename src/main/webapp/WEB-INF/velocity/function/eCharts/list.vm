@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link href="$!{rc.contextPath}/static/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.rtl.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.dataviz.default.min.css" rel="stylesheet" />
+    <link href="$!{rc.contextPath}/static/styles/kendo.silver.min.css" rel="stylesheet" />
+
+    <script src="$!{rc.contextPath}/static/js/jquery.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.all.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/console.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.web.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.grid.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/messages/kendo.messages.zh-CN.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/kendo.editor.min.js"></script>
+    <script src="$!{rc.contextPath}/static/js/jszip.min.js"></script>
+    <script src="$!{rc.contextPath}/static/eCharts/echarts.js"></script>
+
+</head>
+
+
+<script>
+
+
+    $(function() {
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var option={
+            backgroundColor: '#2c343c',
+            textStyle: {
+                color: 'rgba(255, 255, 255, 0.3)'
+            },
+            series : [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: '55%',
+                    data:[
+                        {value:400, name:'搜索引擎'},
+                        {value:335, name:'直接访问'},
+                        {value:310, name:'邮件营销'},
+                        {value:274, name:'联盟广告'},
+                        {value:235, name:'视频广告'}
+                    ],
+                    roseType: 'angle',
+
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    }
+
+                }
+            ]
+        }
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    });//----------------jQuery启动函数结束--------------------
+
+
+</script>
+
+
+
+<body>
+
+    ## eCharts容器
+    <div id="main" style="width: 1000px;height:600px;"></div>
+
+
+</body>
+
+
+
+</html>

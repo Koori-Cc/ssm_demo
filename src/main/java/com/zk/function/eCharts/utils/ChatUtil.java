@@ -36,16 +36,16 @@ public class ChatUtil {
         String[] XNames = new String[size];
         // Y坐标信息
         Long[] YNames = new Long[size];
-        //series数据类型，生成series data里面的itemStyle
+        // series数据类型，生成series data里面的itemStyle
         SeriesData[] seriesData = new SeriesData[size];
-        //新建一个颜色数组，供柱状图条形颜色循环使用
+        // 新建一个颜色数组，供柱状图条形颜色循环使用
         String[] color = new String[]{"#63B2ED","#76DA91","#F7CC7E","#F79683","#7CD5CF"};
         // series
         List<Series> series = new ArrayList<Series>(size);
         // line
         Line line = new Line();
 
-       /*****封装数据****/
+        /*****封装数据****/
         for(int i = 0; i < barList.size();i++){
             XNames[i] = barList.get(i).getAge() + "";   //以年龄为横坐标
             YNames[i] = barList.get(i).getAgeCount();   //以数量为纵坐标
@@ -57,8 +57,7 @@ public class ChatUtil {
         line.type(SeriesType.bar);
         line.data(seriesData);
         MarkLine ml = new MarkLine();
-        ml.data(new com.github.abel533.echarts.data.Data().type(
-        MarkType.average).name("平均值"));
+        ml.data(new com.github.abel533.echarts.data.Data().type(MarkType.average).name("平均值"));
         line.markLine(ml);
         series.add(line);
         String[] legendName = "".split(",");
@@ -97,18 +96,18 @@ public class ChatUtil {
                     data[i] = new com.github.abel533.echarts.data.Data(Name[i],Num[i]);
                 } else {
                     Name[5] = "其他";
-                    Num[5] += barList.get(i).getAgeCount();
+                    Num[5] += barList.get(i).getAgeCount();   //这里进行累加,其他汇总
                     data[5] = new com.github.abel533.echarts.data.Data(Name[5], Num[5]);
                 }
             }
-        }else if(barList.size()==0){//表示无数据时，用暂无代替
+        }else if(barList.size()==0){  //表示无数据时，用暂无代替
             Name = new String[1];
             data = new com.github.abel533.echarts.data.Data[1];
             Object Num[] = new Object[1];
-            Name[0] = "无";
+            Name[0] = "暂无";
             Num[0] = '-';
             data[0] = new com.github.abel533.echarts.data.Data(Name[0],Num[0]);
-        }else{//表示少于5条数据，则实际几条则显示几条
+        }else{  //表示少于5条数据，则实际几条则显示几条
             Name = new String[barList.size()];
             data = new com.github.abel533.echarts.data.Data[barList.size()];
             Long Num[] = new Long[barList.size()];

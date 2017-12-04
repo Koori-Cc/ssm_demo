@@ -1,219 +1,116 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+    #parse("platform/_header.vm")
 <html>
-<head>
-    <title>table内容连续滚动</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-    <style type="text/css">
-        * {padding: 0; margin: 0};
-        td {height: 28px;};
-    </style>
-    <link href="${rc.contextPath}/static/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-    <link rel="stylesheet" href="${rc.contextPath}/static/bs_pagination/css/jquery.bs_pagination.min.css"
-          type="text/css"/>
 
-    <script type="text/javascript" src="${rc.contextPath}/static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="${rc.contextPath}/static/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="${rc.contextPath}/static/bs_pagination/js/jquery.bs_pagination.min.js"></script>
-    <script type="text/javascript" src="${rc.contextPath}/static/bs_pagination/js/localization/en.js"></script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <style>
+        *{margin:0;padding:0}
+        #slide{position:absolute;height:300px;width:260px;color:#FA8E93;overflow:hidden;border:1px solid #ccc}
+        #slide p{height:34px;line-height:34px;overflow:hidden}
+        #slide span{float:right}
+    </style>
 </head>
+
 <body bgcolor="#FFFFFF">
-<div style="padding-top: 100px;">
-    <table width="600" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="4FBFF9">
-        <tr>
-            <td width="120" align="center">业务流水号</td>
-            <td width="130" align="center">业务名称</td>
-            <td width="150" align="center">申请企业名称</td>
-            <td width="100" align="center">申报日期</td>
-            <td width="100" align="center">办理状态</td>
-        </tr>
-    </table>
-</div>
-<div id="demo" style="overflow: hidden; height: 240;">
-    <div id="demo1">
-        <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="4FBFF9">
-            <tr>
-                <td width="120" align="center">201404020001</td>
-                <td width="130">测试业务</td>
-                <td width="150">申请企业名称</td>
-                <td width="100" align="center">2014-03-13</td>
-                <td width="100" align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020002</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020003</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020004</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020005</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020006</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020007</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020008</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020009</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020010</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020011</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020012</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020013</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020014</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020015</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020016</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020017</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020018</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020019</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
-            </tr>
-            <tr>
-                <td align="center">201404020020</td>
-                <td>测试业务</td>
-                <td>申请企业名称</td>
-                <td align="center">2014-03-13</td>
-                <td align="center">在办</td>
+<div class="ui-layout-center" id="subMain" align="center" style="background-color: #F4F6FA">
+    <div class="ui-layout-north">
+    </div>
+
+    <div style="padding: 20px">
+        <font style="font-size: 25px">
+            用户列表展示
+        </font>
+    </div>
+
+    <div align="center">
+        <table style="margin-right: 17px ; background-color: #F0F4F9;" width="1350" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#E1E5E6">
+            <tr style="height: 40px">
+                <td width="15%"  align="center">头像</td>
+                <td width="15%"  align="center">姓名</td>
+                <td width="15%" align="center">年龄</td>
+                <td width="25%" align="center">住址</td>
+                <td width="30%" align="center">创建时间</td>
             </tr>
         </table>
     </div>
-    <div id="demo2"></div>
+
+    <div align="center" id="list1" style="overflow: auto; height: 592; " >
+        <div id="list2" >
+            <table id="dataTable" width="1350" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#E1E5E6">
+                #foreach($data in $dataList)
+                    <tr style="height: 80px">
+                        <td width="15%" align="center">
+                            <img src="$!{photo_pre}/$!{data.photo}">
+                        </td>
+                        <td width="15%" align="center">$!{data.name}</td>
+                        <td width="15%" align="center">$!{data.age}</td>
+                        <td width="25%" align="center">$!{data.address}</td>
+                        <td width="30%" align="center">$!{data.s_createTime}</td>
+                    </tr>
+                #end
+            </table>
+        </div>
+        <div id="list3" ></div>
+    </div>
 
 </div>
-
-
-<div>
-    测试
-    $!{u.name}
-    $!{u.age}
-</div>
+    #parse("platform/_footer.vm")
 
 <script type="text/javascript">
-    var speed = 50;   //设置速度,数字越小速度越快
-    demo2.innerHTML = demo1.innerHTML;      //demo,demo1,demo2都是id,可以用选择器
+    var speed = 25;
+    var list1 = $("#list1")[0];
+    var list2 = $("#list2")[0];
+    var list3 = $("#list3")[0];
+    list3.innerHTML = list2.innerHTML;
     function Marquee() {
-        if (demo2.offsetTop - demo.scrollTop <= 0) {
-            demo.scrollTop -= demo1.offsetHeight;
+        if (list3.offsetTop - list1.scrollTop <= 0) {
+            list1.scrollTop -= list2.offsetHeight;
         } else {
-            demo.scrollTop++;
+            list1.scrollTop++;
         }
     }
     var MyMar = setInterval(Marquee, speed);
 
-    demo.onmouseover = function() {
+    list1.onmouseover = function() {
         clearInterval(MyMar);
+        $("#list3").html("");
     }
 
-    demo.onmouseout = function() {
+    list1.onmouseout = function() {
         MyMar = setInterval(Marquee, speed);
+        $("#list3").html($("#list2").html());
     }
 </script>
 
-
 <script type="text/javascript">
-
 
     $(function() {
 
+        changeColor();
+
+        //设置定时任务,每分钟刷新一次数据
+        window.setInterval(refreshData, 1000 * 60);
     });
 
 
+
+    function refreshData() {
+        window.location = "$!{rc.contextPath}/function/roll/toList.do";
+        changeColor();
+        alert("数据刷新");
+    }
+
+    function changeColor() {
+        var trs = $("#list1 tr");
+        $.each(trs,function(i,v) {
+            if(i % 2 == 0) {
+                $(this).css("background-color","#D0DAE5");
+            }else {
+                $(this).css("background-color","#DEE5ED");
+            }
+        });
+    }
 
 </script>
 

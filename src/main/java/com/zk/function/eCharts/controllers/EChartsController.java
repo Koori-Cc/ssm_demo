@@ -25,7 +25,6 @@ public class EChartsController {
         return "/function/eCharts/list";
     }
 
-
     @RequestMapping(value="/showBar.do",method= RequestMethod.POST,produces="text/html;charset=UTF-8")
     @ResponseBody
     public String showBar() {
@@ -37,6 +36,5 @@ public class EChartsController {
     public String showPie() {
         return userService.showPie();
     }
-
 
 }

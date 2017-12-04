@@ -15,6 +15,7 @@
         <result property="address" column="ADDRESS"/>
         <result property="photo" column="PHOTO"/>
         <result property="createTime" column="CREATETIME"/>
+        <result property="ageCount" column="AGECOUNT"/>
     </resultMap>
 
     <insert id="insertUser">
@@ -124,6 +125,13 @@
 
     <select id="queryAddress" resultType="string">
         SELECT ADDRESS FROM tbl_user
+    </select>
+
+
+    <select id="ageCount" resultMap="userResultMap">
+        select D.age, D.AGECOUNT
+        from (select age, COUNT(age) AGECOUNT from tbl_user group by age) D
+        order by AGECOUNT desc nulls last
     </select>
 
 </mapper>

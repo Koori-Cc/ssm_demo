@@ -13,14 +13,15 @@
 
         <script src="$!{rc.contextPath}/static/js/jquery.min.js"></script>
         <script src="$!{rc.contextPath}/static/js/kendo.all.min.js"></script>
-        <script src="$!{rc.contextPath}/static/js/console.js"></script>
         <script src="$!{rc.contextPath}/static/js/kendo.web.min.js"></script>
         <script src="$!{rc.contextPath}/static/js/kendo.grid.min.js"></script>
         <script src="$!{rc.contextPath}/static/js/messages/kendo.messages.zh-CN.min.js"></script>
         <script src="$!{rc.contextPath}/static/js/kendo.editor.min.js"></script>
         <script src="$!{rc.contextPath}/static/js/jszip.min.js"></script>
-        <script src="$!{rc.contextPath}/static/eCharts/echarts.js"></script>
 
+        <!--从当前页面，引入模块加载器esl.js-->
+        <script type="text/javascript"  src="$!{rc.contextPath}/static/js/echarts/echarts.js"></script>
+        <script type="text/javascript"  src="$!{rc.contextPath}/static/js/echarts/esl.js"></script>
     </head>
 
 </html>

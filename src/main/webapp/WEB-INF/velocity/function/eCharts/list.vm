@@ -1,27 +1,176 @@
-<!DOCTYPE html>
-    #parse("platform/_header.vm")  ## 引入js和css文件
+#parse("platform/_header.vm")  ## 引入js和css文件
 <html>
+
+
 <script>
 
 
     $(function() {
 
+        //--------------绑定一个点击时间,下载压缩包------------------
         $("#btn").click(function() {
             //只能是zip才能激活下载框
             location.href = "$!{rc.contextPath}/static/upload/test.zip";
         });
 
+        $("#showBar").click(function() {
+            //展示charts
+            showBar();
+        });
+
+        $("#showPie").click(function() {
+            showPie();
+        });
+
+
+
+
     });//----------------jQuery启动函数结束--------------------
+
+    //--------------------------显示柱状图 开始-----------------------------------------
+    function showBar() {
+        var url = "$!{rc.contextPath}/function/eCharts/showBar.do";
+        var chartIDB = "Detail";
+        $.ajax({
+            url: url,
+            type: "post",
+//            dataType: "json",     //不能加类型,返回的是字符串
+            success: function (data) {
+                showBarEchar(data,chartIDB);
+            }
+        });
+    }
+
+    //加载图表
+    function showBarEchar(data,chartID){
+        require.config({
+            paths:{
+                'echarts' : '$!{rc.contextPath}/static/js/echarts',
+                'echarts/chart/bar' : '$!{rc.contextPath}/static/js/echarts/chart/bar',
+                'echarts/chart/line' : '$!{rc.contextPath}/static/js/echarts/chart/line',
+                'echarts/chart/pie' : '$!{rc.contextPath}/static/js/echarts/chart/pie'
+            }
+        });
+        require(
+                [
+                    'echarts',
+                    'echarts/chart/bar',
+                    'echarts/chart/line',
+                    'echarts/chart/pie'
+                ],
+                function (ec) {
+                    var myChart = ec.init(document.getElementById(chartID));
+                    myChart.showLoading({text: '正在查询...'});
+                    myChart.clear();
+                    var width = $(".echaetBox2").width() + 28;
+                    var height = $(".echaetBox2").height();
+                    if (data == '0') {   //无数据
+                        var obj = $('#' + chartID).empty();
+                        var li = '<img  src="$!{rc.contextPath}/static/images/nodata.png"  style="width:' + width + 'px;height:' + height + 'px;float:left" >';
+                        obj.append(li);
+                    } else {   //有数据
+                        var option = eval('(' + data + ')');
+                        option.title.subtext = "";
+                        myChart.setOption(option);
+                    }
+                    myChart.hideLoading();
+                }
+        );
+    }
+    //--------------------------显示柱状图 结束-----------------------------------------
+
+    //--------------------------显示饼图 开始-----------------------------------------
+    function showPie() {
+        var url = "$!{rc.contextPath}/function/eCharts/showPie.do";
+        var chartIDB = "Detail";
+        $.ajax({
+            url: url,
+            type: "post",
+            success: function (data) {
+                showPieEchar(data,chartIDB);
+            }
+        });
+    }
+
+    //加载图表
+    function showPieEchar(data,chartID){
+        require.config({
+            paths:{
+                'echarts' : '$!{rc.contextPath}/static/js/echarts',
+                'echarts/chart/bar' : '$!{rc.contextPath}/static/js/echarts/chart/bar',
+                'echarts/chart/line' : '$!{rc.contextPath}/static/js/echarts/chart/line',
+                'echarts/chart/pie' : '$!{rc.contextPath}/static/js/echarts/chart/pie'
+            }
+        });
+        require(
+                [
+                    'echarts',
+                    'echarts/chart/bar',
+                    'echarts/chart/line',
+                    'echarts/chart/pie'
+                ],
+                function (ec) {
+                    var myChart = ec.init(document.getElementById(chartID));
+                    myChart.showLoading({text: '正在查询...'});
+                    myChart.clear();
+                    var width = $(".echaetBox2").width() + 28;
+                    var height = $(".echaetBox2").height();
+                    if (data == '0') {   //无数据
+                        var obj = $('#' + chartID).empty();
+                        var li = '<img  src="$!{rc.contextPath}/static/images/nodata.png"  style="width:' + width + 'px;height:' + height + 'px;float:left" >';
+                        obj.append(li);
+                    } else {   //有数据
+                        var option = eval('(' + data + ')');
+                        option.title.subtext = "";
+                        if (chartID == "Detail") {
+                            option.series[0].itemStyle.normal.label.formatter = function (params) {//饼图数字格式
+                                return params.name + "：" + params.value + "(" + Math.round(params.percent) + "%)";
+                            };
+                        }
+                        myChart.setOption(option);
+                    }
+                    myChart.hideLoading();
+                }
+        );
+    }
+    //--------------------------显示柱状图 结束-----------------------------------------
 
 
 </script>
 
 <body>
 
-    ## eCharts容器
-    <div id="main" style="width: 1000px;height:600px;" align="center"></div>
+    <div class="ui-layout-center" id="center" style="background: #E7ECF2">
+        <div class="ui-layout-center" id="grid">
+            <table width="50%" border="3" Style="background-color:#f9fafe;" bordercolor="#86B4DC" cellpadding="5"
+                   cellspacing="12">
+                <tr >
+                    <td width="50%" >
+                        <div class="echaetBox2">
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td Style="">
+                                        <div style="display:none">  ## 这里可以定义标题
+                                            <label class="ui-label" for="deviceNumforConut">echarts测试</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="Detail" Style="height:330px;width: 1480px"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-    <input type="button" id="btn" value="下载">
+    <input type="button" id="showBar" value="展示柱状图">
+    <input type="button" id="showPie" value="展示饼图">
+    <input type="button" id="btn" value="下载测试">
 
 </body>
     #parse("platform/_footer.vm")

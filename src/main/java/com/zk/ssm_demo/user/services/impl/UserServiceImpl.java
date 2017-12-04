@@ -1,6 +1,7 @@
 package com.zk.ssm_demo.user.services.impl;
 
 
+import com.zk.function.eCharts.utils.ChatUtil;
 import com.zk.ssm_demo.role.daos.RoleDao;
 import com.zk.ssm_demo.role.entities.Role;
 import com.zk.ssm_demo.user.daos.UserDao;
@@ -120,6 +121,27 @@ public class UserServiceImpl implements UserService{
 
     public List<String> queryAddress() {
         return userDao.queryAddress();
+    }
+
+    public String getEchartsList() {
+        //柱状图
+        List<User> users = userDao.ageCount();
+        String userBar = ChatUtil.Bar(users, "title");
+        return userBar;
+    }
+
+    public String showBar() {
+        //柱状图
+        List<User> users = userDao.ageCount();
+        String userBar = ChatUtil.Bar(users, "柱状图");
+        return userBar;
+    }
+
+    public String showPie() {
+        //柱状图
+        List<User> users = userDao.ageCount();
+        String userPie = ChatUtil.pie(users, "饼图");
+        return userPie;
     }
 
     public Integer importExcel(List<User> list) {

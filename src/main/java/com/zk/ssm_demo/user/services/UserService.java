@@ -30,4 +30,10 @@ public interface UserService {
 
     List<String> queryAddress();
 
+    String getEchartsList();
+
+    String showBar();
+
+    String showPie();
+
 }

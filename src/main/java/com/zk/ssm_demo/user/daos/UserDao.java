@@ -32,4 +32,6 @@ public interface UserDao {
 
     List<String> queryAddress();
 
+
+    List<User> ageCount();
 }

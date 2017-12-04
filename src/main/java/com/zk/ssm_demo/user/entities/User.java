@@ -16,6 +16,14 @@ public class User {
     private Date createTime;
     private String s_createTime;   //辅助日期变量
 
+
+    /********* 自定义属性 *********/
+
+    //每个年龄对应的人数
+    private Long ageCount;
+
+    /********* 自定义属性 *********/
+
     public String getS_createTime() {
         return s_createTime;
     }
@@ -78,6 +86,15 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+
+    public Long getAgeCount() {
+        return ageCount;
+    }
+
+    public void setAgeCount(Long ageCount) {
+        this.ageCount = ageCount;
     }
 
     @Override

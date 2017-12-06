@@ -11,6 +11,7 @@
     <a href="$!{rc.contextPath}/function/ftp/toList.do">ftp测试</a><br><br>
     <a href="$!{rc.contextPath}/function/roll/toList.do">滚动测试</a><br><br>
     <a href="$!{rc.contextPath}/function/eCharts/toList.do">eCharts</a><br><br>
+    <a href="$!{rc.contextPath}/function/zTree/toList.do">zTree</a><br><br>
 
 </div>
 

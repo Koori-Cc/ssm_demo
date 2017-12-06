@@ -1,0 +1,112 @@
+#parse("platform/_header.vm")  ## 引入js和css文件
+<html>
+
+<!DOCTYPE html>
+<html>
+
+　　<script>
+
+    var settingLeft = {
+        view: {
+            dblClickExpand: false,//双击节点时，是否自动展开父节点的标识
+            showLine: false,//是否显示节点之间的连线
+            showIcon: true,
+            fontCss: { 'color': 'white', 'font-weight': 'normal' },//字体样式函数
+            selectedMulti: false //设置是否允许同时选中多个节点
+        },
+        check: {
+            //chkboxType: { "Y": "ps", "N": "ps" },
+            chkStyle: "checkbox",//复选框类型
+            enable: true //每个节点上是否显示 CheckBox
+        },
+        data: {
+            simpleData: {//简单数据模式
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: ""
+            }
+        },
+        callback: {
+            beforeClick: function (treeId, treeNode) {
+                zTree = $.fn.zTree.getZTreeObj("menu_tree_left");
+                if (treeNode.isParent) {
+                    zTree.expandNode(treeNode);//如果是父节点，则展开该节点
+                } else {
+                    zTree.checkNode(treeNode, !treeNode.checked, true, true);//单击勾选，再次单击取消勾选
+                }
+            },
+            onClick: zTreeClick,   //单击叶子节点
+            onCheck: zTreeCheck   //可以绑定不同的事件
+        }
+    };
+
+    $(function () {
+
+        //将后台穿过来的字符串转换成json对象
+        var zNodes = eval('(' + '$!{dataList}' + ')');   //将字符串转换陈json对象
+        $.fn.zTree.init($("#menu_tree_left"), settingLeft, zNodes);
+
+
+    });
+
+    /**
+     * 单击叶子节点
+     */
+    function zTreeClick(e, treeId, treeNode)  {
+        var zTree = $.fn.zTree.getZTreeObj("menu_tree_left");
+        if (treeNode) {
+            //可以写点击的事件
+            if (treeNode.id == '1') {
+
+            } else  {  //点击上一级菜单
+
+            }
+        }
+    }
+
+    /**
+     * 叶子节点选择事件
+     */
+    function zTreeCheck(e, treeId, treeNode) {
+        var treeObj = $.fn.zTree.getZTreeObj("menu_tree_left");
+        nodes = treeObj.getCheckedNodes(true);
+        creeatePageHtml(nodes);
+    }
+
+    /**
+     * 回显函数
+     * @param nodes
+     */
+    function creeatePageHtml(nodes) {
+        var str = "";
+        for (var i = 0; i < nodes.length; i++) {
+            var remark = nodes[i].remark;
+            if(i != nodes.length - 1) {
+                str += remark + " --> ";
+            }else {
+                str += remark;
+            }
+        }
+        $("#remark").val(str);
+    }
+
+</script>
+
+
+<body style="background: #ddd;">
+
+        <div class="mainbody-left">
+    　　　　<div class="vvtree dept-tree left">
+    　　　　　　<ul id="menu_tree_left" class="ztree"></ul>
+    　　　　</div>
+        </div>
+
+        <div style="padding-bottom: 5px">
+            回显:<input type="text" id="remark">
+        </div>
+
+</body>
+
+    #parse("platform/_footer.vm")
+</html>

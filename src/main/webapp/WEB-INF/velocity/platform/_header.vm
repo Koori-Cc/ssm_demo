@@ -22,6 +22,12 @@
         <!--从当前页面，引入模块加载器esl.js-->
         <script type="text/javascript"  src="$!{rc.contextPath}/static/js/echarts/echarts.js"></script>
         <script type="text/javascript"  src="$!{rc.contextPath}/static/js/echarts/esl.js"></script>
+
+        ## ztree
+        <link href="$!{rc.contextPath}/static/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+        <script src="$!{rc.contextPath}/static/zTree/js/jquery.ztree.core.js"></script>
+    　　 <script src="$!{rc.contextPath}/static/zTree/js/jquery.ztree.excheck.js"></script>
+
     </head>
 
 </html>
